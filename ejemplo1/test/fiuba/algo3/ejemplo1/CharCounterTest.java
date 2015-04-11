@@ -14,16 +14,16 @@ public class CharCounterTest {
 
 	}
 
+	@Test
+	public void howManyShouldReturnNegativeWhenCharIsSymbolMoney() {
+
+		CharCounter counter = new CharCounter("hello world");
+
+		Assert.assertEquals(-1, counter.howMany('$'));
+
+	}
+
 	/*
-	 * @Test public void howManyShouldReturnNegativeWhenCharIsSymbolMoney(){
-	 * 
-	 * CharCounter counter = new CharCounter("hello world");
-	 * 
-	 * Assert.assertEquals(-1, counter.howMany('$'));
-	 * 
-	 * }
-	 * 
-	 * 
 	 * @Test public void howManyShouldReturnNegativeWhenCharIsSymbolAt(){
 	 * 
 	 * CharCounter counter = new CharCounter("hello world");

@@ -11,6 +11,10 @@ public class CharCounter {
 	public int howMany(char character) {
 		int count = 0;
 
+		if (character == '$') {
+			return -1;
+		}
+
 		for (int i = 0; i < word.length(); i++) {
 			char charAt = word.charAt(i);
 			if (charAt == character) {
