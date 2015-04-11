@@ -9,7 +9,7 @@ public class FooTest {
 	public void doFooShouldReturnFoo(){
         Foo foo = new Foo();
         String result = foo.doFoo();
-        Assert.assertEquals("Foo.", result);
+        Assert.assertEquals("Foo", result);
 	}
 
 }
