@@ -13,6 +13,8 @@ public class CharCounter {
 
 		if (character == '$') {
 			return -1;
+		} else if (character == '@') {
+			return -2;
 		}
 
 		for (int i = 0; i < word.length(); i++) {

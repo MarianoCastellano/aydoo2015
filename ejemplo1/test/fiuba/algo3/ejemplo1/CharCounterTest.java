@@ -23,15 +23,15 @@ public class CharCounterTest {
 
 	}
 
+	@Test
+	public void howManyShouldReturnNegativeWhenCharIsSymbolAt() {
+
+		CharCounter counter = new CharCounter("hello world");
+
+		Assert.assertEquals(-2, counter.howMany('@'));
+
+	}
 	/*
-	 * @Test public void howManyShouldReturnNegativeWhenCharIsSymbolAt(){
-	 * 
-	 * CharCounter counter = new CharCounter("hello world");
-	 * 
-	 * Assert.assertEquals(-2, counter.howMany('@'));
-	 * 
-	 * }
-	 * 
 	 * @Test public void countAllShouldReturnAnArrayWithAllCharsCount(){
 	 * 
 	 * CharCounter counter = new CharCounter("hello world");
