@@ -1,5 +1,7 @@
 package fiuba.algo3.ejemplo1;
 
+import java.util.HashMap;
+
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -31,14 +33,16 @@ public class CharCounterTest {
 		Assert.assertEquals(-2, counter.howMany('@'));
 
 	}
-	/*
-	 * @Test public void countAllShouldReturnAnArrayWithAllCharsCount(){
-	 * 
-	 * CharCounter counter = new CharCounter("hello world");
-	 * HashMap<Character,Integer> result = counter.countAll();
-	 * 
-	 * Assert.assertTrue(result.get('h').equals(1));
-	 * Assert.assertTrue(result.get('z').equals(0));
-	 * Assert.assertTrue(result.get('l').equals(3)); }
-	 */
+
+	@Test
+	public void countAllShouldReturnAnArrayWithAllCharsCount() {
+
+		CharCounter counter = new CharCounter("hello world");
+		HashMap<Character, Integer> result = counter.countAll();
+
+		Assert.assertTrue(result.get('h').equals(1));
+		Assert.assertTrue(result.get('z').equals(0));
+		Assert.assertTrue(result.get('l').equals(3));
+	}
+
 }
