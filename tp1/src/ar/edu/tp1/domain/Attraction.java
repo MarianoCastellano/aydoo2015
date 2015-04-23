@@ -3,9 +3,31 @@ package ar.edu.tp1.domain;
 public class Attraction {
 
 	private float cost;
+	private float x;
+	private float y;
+	private float visitTime;
 
-	public Attraction(float cost) {
+	public Attraction(float x, float y, float cost, float visitTime) {
+		this.x = x;
+		this.y = y;
 		this.cost = cost;
+		this.visitTime = visitTime;
+	}
+
+	public void setVisitTime(float visitTime) {
+		this.visitTime = visitTime;
+	}
+
+	public float getVisitTime() {
+		return visitTime;
+	}
+
+	public float getX() {
+		return x;
+	}
+
+	public float getY() {
+		return y;
 	}
 
 	public float getCost() {
@@ -16,8 +38,12 @@ public class Attraction {
 		this.cost = cost;
 	}
 
-	public boolean canVisit(float money) {
-		return money > this.cost;
+	public boolean hasMoneyEnough(float money) {
+		return money >= this.cost;
+	}
+
+	public boolean hasTimeEnough(float time) {
+		return time >= this.visitTime;
 	}
 
 }

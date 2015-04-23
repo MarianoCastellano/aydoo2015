@@ -8,8 +8,8 @@ public class SecretaryTourism {
 
 	private Set<Attraction> attractions;
 
-	public SecretaryTourism() {
-		this.attractions = createAttractions();
+	public SecretaryTourism(Set<Attraction> attractions) {
+		this.attractions = attractions;
 	}
 
 	public Set<Attraction> suggestedVisits(User user) {
@@ -20,7 +20,7 @@ public class SecretaryTourism {
 		while (iteratorAttractions.hasNext()) {
 			Attraction attraction = iteratorAttractions.next();
 
-			if (!attraction.canVisit(user.getMoney())) {
+			if (!isValidForAttraction(user, attraction)) {
 				iteratorAttractions.remove();
 			}
 		}
@@ -28,14 +28,8 @@ public class SecretaryTourism {
 		return attractionsSuggested;
 	}
 
-	private Set<Attraction> createAttractions() {
-		this.attractions = new HashSet<Attraction>();
-		Attraction landscape = new Attraction(500);
-		Attraction tasing = new Attraction(1500);
-		Attraction adventure = new Attraction(2000);
-		this.attractions.add(landscape);
-		this.attractions.add(tasing);
-		this.attractions.add(adventure);
-		return this.attractions;
+	private boolean isValidForAttraction(User user, Attraction attraction) {
+		return attraction.hasMoneyEnough(user.getMoney()) && attraction.hasTimeEnough(user.getTimeRemaining());
 	}
+
 }
