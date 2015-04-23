@@ -2,3 +2,6 @@
 set -e
 cd ejemplo1
 ant
+cd ..
+cd tp1
+ant
