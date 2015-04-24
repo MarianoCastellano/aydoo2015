@@ -7,18 +7,18 @@ import java.util.Set;
 public class SecretaryTourism {
 
 	private Set<Attraction> attractions;
-	private Set<PercentagePromotion> promotions;
+	private Set<Promotable> promotions;
 
 	public SecretaryTourism(Set<Attraction> attractions) {
 		this.attractions = attractions;
-		promotions = new HashSet<PercentagePromotion>();
+		promotions = new HashSet<Promotable>();
 	}
 
-	public void addPromotion(PercentagePromotion promotion) {
+	public void addPromotion(Promotable promotion) {
 		this.promotions.add(promotion);
 	}
 
-	public Set<PercentagePromotion> getPromotions() {
+	public Set<Promotable> getPromotions() {
 		return promotions;
 	}
 
@@ -33,10 +33,10 @@ public class SecretaryTourism {
 	}
 
 	private void suggestPromotions(User user, Set<Attraction> attractionsSuggested) {
-		Iterator<PercentagePromotion> iteratorPromotions = this.promotions.iterator();
+		Iterator<Promotable> iteratorPromotions = this.promotions.iterator();
 
 		while (iteratorPromotions.hasNext()) {
-			PercentagePromotion promotion = iteratorPromotions.next();
+			Promotable promotion = iteratorPromotions.next();
 
 			if (promotion.applyToUser(user, attractionsSuggested)) {
 				promotion.applyPromotion(user, attractionsSuggested);

@@ -3,18 +3,18 @@ package ar.edu.tp1.domain;
 import java.util.Date;
 import java.util.Set;
 
-public class PercentagePromotion implements Promotable {
+public class AbsolutePromotion implements Promotable {
 
 	private Set<Attraction> attractions;
 	private Date startDate;
 	private Date endDate;
-	private float porcentage;
+	private float costTotal;
 
-	public PercentagePromotion(Date startDate, Date endDate, Set<Attraction> attractions, float porcentage) {
+	public AbsolutePromotion(Date startDate, Date endDate, Set<Attraction> attractions, float costTotal) {
 		this.startDate = startDate;
 		this.endDate = endDate;
 		this.attractions = attractions;
-		this.porcentage = porcentage;
+		this.costTotal = costTotal;
 	}
 
 	public void setStartDate(Date startDate) {
@@ -33,33 +33,23 @@ public class PercentagePromotion implements Promotable {
 		return startDate;
 	}
 
-	public float getPorcentage() {
-		return porcentage;
+	public float getCostTotal() {
+		return costTotal;
 	}
 
-	public void setPorcentage(float porcentage) {
-		this.porcentage = porcentage;
-	}
-
-	public Set<Attraction> getAttractions() {
-		return attractions;
+	public void setCostTotal(float costTotal) {
+		this.costTotal = costTotal;
 	}
 
 	@Override
 	public void applyPromotion(User user, Set<Attraction> attractionsSuggested) {
 		if (isActive()) {
-
-			float totalCost = 0;
-			for (Attraction attractionPromotion : getAttractions()) {
-				if (isValidForAttraction(user, attractionPromotion)) {
-
-					totalCost += attractionPromotion.getCost();
-					attractionsSuggested.add(attractionPromotion);
+			for (Attraction attraction : attractions) {
+				if (isValidForAttraction(user, attraction)) {
+					attractionsSuggested.add(attraction);
+					user.discountMoney(this.costTotal);
 				}
 			}
-
-			float porcentage = this.porcentage * totalCost;
-			user.discountMoney(porcentage);
 		}
 	}
 
@@ -76,6 +66,10 @@ public class PercentagePromotion implements Promotable {
 	@Override
 	public boolean applyToUser(User user, Set<Attraction> attractionsSuggested) {
 		return true;
+	}
+
+	public Set<Attraction> getAttractions() {
+		return attractions;
 	}
 
 }
