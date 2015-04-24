@@ -15,7 +15,7 @@ public class SuggestVisitsTest {
 
 	@Test
 	public void suggestedVisitsShouldSuggestedWhenHasMoneyEnough() {
-		User joseph = new User(1000, 3600, AttractionType.LANDSCAPE);
+		User joseph = new User(1000, 3600, AttractionType.LANDSCAPE, 0);
 
 		SecretaryTourism tierraMedia = new SecretaryTourism(createAttractions());
 		Set<Attraction> attractionsSuggested = tierraMedia.suggestedVisits(joseph);
@@ -25,7 +25,7 @@ public class SuggestVisitsTest {
 
 	@Test
 	public void suggestedVisitsShouldSuggestedWhenHasTimeEnough() {
-		User joseph = new User(1000, 3600, AttractionType.LANDSCAPE);
+		User joseph = new User(1000, 3600, AttractionType.LANDSCAPE, 0);
 
 		SecretaryTourism tierraMedia = new SecretaryTourism(createAttractions());
 		Set<Attraction> attractionsSuggested = tierraMedia.suggestedVisits(joseph);
@@ -35,7 +35,17 @@ public class SuggestVisitsTest {
 
 	@Test
 	public void suggestedVisitsShouldSuggestedWhenIsFavoriteAttraction() {
-		User joseph = new User(1000, 3600, AttractionType.LANDSCAPE);
+		User joseph = new User(1000, 3600, AttractionType.LANDSCAPE, 0);
+
+		SecretaryTourism tierraMedia = new SecretaryTourism(createAttractions());
+		Set<Attraction> attractionsSuggested = tierraMedia.suggestedVisits(joseph);
+
+		Assert.assertEquals(1, attractionsSuggested.size());
+	}
+
+	@Test
+	public void suggestedVisitsShouldSuggestedWhenHasCapacity() {
+		User joseph = new User(1000, 3600, AttractionType.LANDSCAPE, 0);
 
 		SecretaryTourism tierraMedia = new SecretaryTourism(createAttractions());
 		Set<Attraction> attractionsSuggested = tierraMedia.suggestedVisits(joseph);
@@ -45,9 +55,9 @@ public class SuggestVisitsTest {
 
 	private Set<Attraction> createAttractions() {
 		Set<Attraction> attractions = new HashSet<Attraction>();
-		Attraction landscape = new Attraction(10, 20, 500, 3600, AttractionType.LANDSCAPE);
-		Attraction tasing = new Attraction(20, 20, 1500, 3600, AttractionType.TASING);
-		Attraction adventure = new Attraction(55, 33, 2000, 3600, AttractionType.ADVENTURE);
+		Attraction landscape = new Attraction(10, 20, 500, 3600, AttractionType.LANDSCAPE, 100);
+		Attraction tasing = new Attraction(20, 20, 1500, 3600, AttractionType.TASING, 100);
+		Attraction adventure = new Attraction(55, 33, 2000, 3600, AttractionType.ADVENTURE, 100);
 		attractions.add(landscape);
 		attractions.add(tasing);
 		attractions.add(adventure);

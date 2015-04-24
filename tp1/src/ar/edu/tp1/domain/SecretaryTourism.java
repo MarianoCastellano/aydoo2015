@@ -30,6 +30,6 @@ public class SecretaryTourism {
 
 	private boolean isValidForAttraction(User user, Attraction attraction) {
 		return attraction.hasMoneyEnough(user.getMoney()) && attraction.hasTimeEnough(user.getTimeRemaining())
-				&& attraction.IsFavoriteAttraction(user.getFavoriteAttraction());
+				&& attraction.IsFavoriteAttraction(user.getFavoriteAttraction()) && attraction.hasCapacity();
 	}
 }

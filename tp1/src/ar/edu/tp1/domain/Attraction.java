@@ -7,13 +7,23 @@ public class Attraction {
 	private float y;
 	private float visitTime;
 	private AttractionType type;
+	private int capacity;
 
-	public Attraction(float x, float y, float cost, float visitTime, AttractionType type) {
+	public Attraction(float x, float y, float cost, float visitTime, AttractionType type, int capacity) {
 		this.x = x;
 		this.y = y;
 		this.cost = cost;
 		this.visitTime = visitTime;
 		this.type = type;
+		this.capacity = capacity;
+	}
+
+	public int getCapacity() {
+		return capacity;
+	}
+
+	public void setCapacity(int capacity) {
+		this.capacity = capacity;
 	}
 
 	public void setVisitTime(float visitTime) {
@@ -58,5 +68,9 @@ public class Attraction {
 
 	public boolean IsFavoriteAttraction(AttractionType type) {
 		return this.type.equals(type);
+	}
+
+	public boolean hasCapacity() {
+		return this.capacity > 0;
 	}
 }
