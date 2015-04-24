@@ -73,4 +73,5 @@ public class Attraction {
 	public boolean hasCapacity() {
 		return this.capacity > 0;
 	}
+
 }

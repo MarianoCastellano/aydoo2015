@@ -53,6 +53,7 @@ public class SecretaryTourism {
 
 			if (isValidForAttraction(user, attraction)) {
 				attractionsSuggested.add(attraction);
+				System.out.println("Se agrego: " + attraction.getType().name());
 			}
 		}
 	}
