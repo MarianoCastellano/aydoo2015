@@ -4,14 +4,20 @@ public class User {
 
 	private float money;
 	private float timeRemaining;
+	private AttractionType favoriteAttraction;
 
-	public User(float money, float timeRemaining) {
+	public User(float money, float timeRemaining, AttractionType favoriteAttraction) {
 		this.money = money;
 		this.timeRemaining = timeRemaining;
+		this.favoriteAttraction = favoriteAttraction;
 	}
 
-	public void discountTime(float time) {
-		this.timeRemaining -= time;
+	public AttractionType getFavoriteAttraction() {
+		return favoriteAttraction;
+	}
+
+	public void setFavoriteAttraction(AttractionType favoriteAttraction) {
+		this.favoriteAttraction = favoriteAttraction;
 	}
 
 	public float getTimeRemaining() {

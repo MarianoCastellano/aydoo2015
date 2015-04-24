@@ -6,12 +6,14 @@ public class Attraction {
 	private float x;
 	private float y;
 	private float visitTime;
+	private AttractionType type;
 
-	public Attraction(float x, float y, float cost, float visitTime) {
+	public Attraction(float x, float y, float cost, float visitTime, AttractionType type) {
 		this.x = x;
 		this.y = y;
 		this.cost = cost;
 		this.visitTime = visitTime;
+		this.type = type;
 	}
 
 	public void setVisitTime(float visitTime) {
@@ -38,6 +40,14 @@ public class Attraction {
 		this.cost = cost;
 	}
 
+	public void setType(AttractionType type) {
+		this.type = type;
+	}
+
+	public AttractionType getType() {
+		return type;
+	}
+
 	public boolean hasMoneyEnough(float money) {
 		return money >= this.cost;
 	}
@@ -46,4 +56,7 @@ public class Attraction {
 		return time >= this.visitTime;
 	}
 
+	public boolean IsFavoriteAttraction(AttractionType type) {
+		return this.type.equals(type);
+	}
 }
