@@ -1,64 +1,69 @@
 package ar.edu.tp1.domain;
 
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
-import java.util.Set;
+import java.util.List;
 
 public class SecretaryTourism {
 
-	private Set<Attraction> attractions;
-	private Set<Promotable> promotions;
+	private List<Attraction> attractions;
+	private List<Promotable> promotions;
 
-	public SecretaryTourism(Set<Attraction> attractions) {
+	public SecretaryTourism(List<Attraction> attractions) {
 		this.attractions = attractions;
-		promotions = new HashSet<Promotable>();
+		promotions = new ArrayList<Promotable>();
 	}
 
 	public void addPromotion(Promotable promotion) {
 		this.promotions.add(promotion);
 	}
 
-	public Set<Promotable> getPromotions() {
+	public List<Promotable> getPromotions() {
 		return promotions;
 	}
 
-	public Set<Attraction> suggestedVisits(User user) {
-		Set<Attraction> attractionsSuggested = new HashSet<Attraction>();
+	public List<Suggestion> suggestedVisits(User user) {
 
-		suggestVisits(user, attractionsSuggested);
+		List<Suggestion> suggestions = new ArrayList<Suggestion>();
 
-		suggestPromotions(user, attractionsSuggested);
+		for (int i = 0; i < 2; i++) {
+			Suggestion suggestion = suggestVisits(user);
 
-		return attractionsSuggested;
+			applyPromotions(user, suggestion);
+
+			suggestions.add(suggestion);
+
+			Collections.shuffle(this.attractions);
+		}
+
+		return suggestions;
 	}
 
-	private void suggestPromotions(User user, Set<Attraction> attractionsSuggested) {
+	private void applyPromotions(User user, Suggestion suggestion) {
 		Iterator<Promotable> iteratorPromotions = this.promotions.iterator();
 
 		while (iteratorPromotions.hasNext()) {
 			Promotable promotion = iteratorPromotions.next();
 
-			if (promotion.applyToUser(user, attractionsSuggested)) {
-				promotion.applyPromotion(user, attractionsSuggested);
-			}
-
+			promotion.applyPromotion(user, suggestion);
 		}
 	}
 
-	private void suggestVisits(User user, Set<Attraction> attractionsSuggested) {
+	private Suggestion suggestVisits(User user) {
 		Iterator<Attraction> iteratorAttractions = this.attractions.iterator();
+
+		List<Attraction> attractionsSuggested = new ArrayList<Attraction>();
 
 		while (iteratorAttractions.hasNext()) {
 			Attraction attraction = iteratorAttractions.next();
 
-			if (isValidForAttraction(user, attraction)) {
+			if (attraction.allowUser(user)) {
 				attractionsSuggested.add(attraction);
 			}
 		}
+
+		return new Suggestion(attractionsSuggested);
 	}
 
-	private boolean isValidForAttraction(User user, Attraction attraction) {
-		return attraction.hasMoneyEnough(user.getMoney()) && attraction.hasTimeEnough(user.getTimeRemaining())
-				&& attraction.IsFavoriteAttraction(user.getFavoriteAttraction()) && attraction.hasCapacity();
-	}
 }

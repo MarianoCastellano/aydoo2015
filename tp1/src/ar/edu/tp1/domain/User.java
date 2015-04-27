@@ -2,23 +2,23 @@ package ar.edu.tp1.domain;
 
 public class User {
 
-	private float money;
-	private float timeRemaining;
+	private Float money;
+	private Float timeRemaining;
 	private AttractionType favoriteAttraction;
-	private float speed;
+	private Float speed;
 
-	public User(float money, float timeRemaining, AttractionType favoriteAttraction, float speed) {
+	public User(Float money, Float timeRemaining, AttractionType favoriteAttraction, Float speed) {
 		this.money = money;
 		this.timeRemaining = timeRemaining;
 		this.favoriteAttraction = favoriteAttraction;
 		this.speed = speed;
 	}
 
-	public void setSpeed(float speed) {
+	public void setSpeed(Float speed) {
 		this.speed = speed;
 	}
 
-	public float getSpeed() {
+	public Float getSpeed() {
 		return speed;
 	}
 
@@ -30,15 +30,15 @@ public class User {
 		this.favoriteAttraction = favoriteAttraction;
 	}
 
-	public float getTimeRemaining() {
+	public Float getTimeRemaining() {
 		return timeRemaining;
 	}
 
-	public float getMoney() {
+	public Float getMoney() {
 		return money;
 	}
 
-	public void discountMoney(float cost) {
+	public void discountMoney(Float cost) {
 		this.money -= cost;
 	}
 

@@ -1,16 +1,17 @@
 package ar.edu.tp1.domain;
 
 import java.util.Date;
-import java.util.Set;
+import java.util.Iterator;
+import java.util.List;
 
 public class PercentagePromotion implements Promotable {
 
-	private Set<Attraction> attractions;
+	private List<Attraction> attractions;
 	private Date startDate;
 	private Date endDate;
-	private float porcentage;
+	private Float porcentage;
 
-	public PercentagePromotion(Date startDate, Date endDate, Set<Attraction> attractions, float porcentage) {
+	public PercentagePromotion(Date startDate, Date endDate, List<Attraction> attractions, Float porcentage) {
 		this.startDate = startDate;
 		this.endDate = endDate;
 		this.attractions = attractions;
@@ -33,49 +34,43 @@ public class PercentagePromotion implements Promotable {
 		return startDate;
 	}
 
-	public float getPorcentage() {
+	public Float getPorcentage() {
 		return porcentage;
 	}
 
-	public void setPorcentage(float porcentage) {
+	public void setPorcentage(Float porcentage) {
 		this.porcentage = porcentage;
 	}
 
-	public Set<Attraction> getAttractions() {
+	public List<Attraction> getAttractions() {
 		return attractions;
 	}
 
 	@Override
-	public void applyPromotion(User user, Set<Attraction> attractionsSuggested) {
+	public void applyPromotion(User user, Suggestion suggestion) {
 		if (isActive()) {
 
-			float totalCost = 0;
-			for (Attraction attractionPromotion : getAttractions()) {
-				if (isValidForAttraction(user, attractionPromotion)) {
+			List<Attraction> attractionsSuggested = suggestion.getAttractionsSuggested();
 
-					totalCost += attractionPromotion.getCost();
-					attractionsSuggested.add(attractionPromotion);
+			Iterator<Attraction> iteratorAttractionSuggested = attractionsSuggested.iterator();
+
+			Boolean promotionApplied = Boolean.FALSE;
+
+			while (iteratorAttractionSuggested.hasNext() && !promotionApplied) {
+				Attraction attraction = iteratorAttractionSuggested.next();
+
+				if (this.attractions.contains(attraction)) {
+					float porcentage = (this.porcentage / 100) * suggestion.getTotalCost();
+					user.discountMoney(porcentage);
+					promotionApplied = Boolean.TRUE;
 				}
 			}
-
-			float porcentage = this.porcentage * totalCost;
-			user.discountMoney(porcentage);
 		}
 	}
 
 	private boolean isActive() {
 		Date today = new Date();
 		return today.after(this.startDate) && today.before(this.endDate);
-	}
-
-	private boolean isValidForAttraction(User user, Attraction attraction) {
-		return attraction.hasMoneyEnough(user.getMoney()) && attraction.hasTimeEnough(user.getTimeRemaining())
-				&& attraction.IsFavoriteAttraction(user.getFavoriteAttraction()) && attraction.hasCapacity();
-	}
-
-	@Override
-	public boolean applyToUser(User user, Set<Attraction> attractionsSuggested) {
-		return true;
 	}
 
 }

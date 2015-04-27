@@ -2,14 +2,16 @@ package ar.edu.tp1.domain;
 
 public class Attraction {
 
-	private float cost;
-	private float x;
-	private float y;
-	private float visitTime;
+	private Integer id;
+	private Float cost;
+	private Float x;
+	private Float y;
+	private Float visitTime;
 	private AttractionType type;
-	private int capacity;
+	private Integer capacity;
 
-	public Attraction(float x, float y, float cost, float visitTime, AttractionType type, int capacity) {
+	public Attraction(Integer id, Float x, Float y, Float cost, Float visitTime, AttractionType type, Integer capacity) {
+		this.id = id;
 		this.x = x;
 		this.y = y;
 		this.cost = cost;
@@ -18,35 +20,35 @@ public class Attraction {
 		this.capacity = capacity;
 	}
 
-	public int getCapacity() {
+	public Integer getCapacity() {
 		return capacity;
 	}
 
-	public void setCapacity(int capacity) {
+	public void setCapacity(Integer capacity) {
 		this.capacity = capacity;
 	}
 
-	public void setVisitTime(float visitTime) {
+	public void setVisitTime(Float visitTime) {
 		this.visitTime = visitTime;
 	}
 
-	public float getVisitTime() {
+	public Float getVisitTime() {
 		return visitTime;
 	}
 
-	public float getX() {
+	public Float getX() {
 		return x;
 	}
 
-	public float getY() {
+	public Float getY() {
 		return y;
 	}
 
-	public float getCost() {
+	public Float getCost() {
 		return cost;
 	}
 
-	public void setCost(float cost) {
+	public void setCost(Float cost) {
 		this.cost = cost;
 	}
 
@@ -58,11 +60,15 @@ public class Attraction {
 		return type;
 	}
 
-	public boolean hasMoneyEnough(float money) {
+	public Integer getId() {
+		return id;
+	}
+
+	public boolean hasMoneyEnough(Float money) {
 		return money >= this.cost;
 	}
 
-	public boolean hasTimeEnough(float time) {
+	public boolean hasTimeEnough(Float time) {
 		return time >= this.visitTime;
 	}
 
@@ -74,4 +80,18 @@ public class Attraction {
 		return this.capacity > 0;
 	}
 
+	public boolean allowUser(User user) {
+		return this.hasMoneyEnough(user.getMoney()) && this.hasTimeEnough(user.getTimeRemaining())
+				&& this.IsFavoriteAttraction(user.getFavoriteAttraction()) && this.hasCapacity();
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this.getId() == null) {
+			return this == obj;
+		} else {
+			Attraction attraction = (Attraction) obj;
+			return this.getId().equals(attraction.getId());
+		}
+	}
 }

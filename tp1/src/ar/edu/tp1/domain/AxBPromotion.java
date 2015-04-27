@@ -2,16 +2,16 @@ package ar.edu.tp1.domain;
 
 import java.util.Date;
 import java.util.Iterator;
-import java.util.Set;
+import java.util.List;
 
 public class AxBPromotion implements Promotable {
 
-	private Set<Attraction> attractions;
+	private List<Attraction> attractions;
 	private Date startDate;
 	private Date endDate;
 	private Attraction attractionFree;
 
-	public AxBPromotion(Date startDate, Date endDate, Set<Attraction> attractions, Attraction attractionFree) {
+	public AxBPromotion(Date startDate, Date endDate, List<Attraction> attractions, Attraction attractionFree) {
 		this.startDate = startDate;
 		this.endDate = endDate;
 		this.attractions = attractions;
@@ -42,52 +42,46 @@ public class AxBPromotion implements Promotable {
 		this.attractionFree = attractionFree;
 	}
 
-	public void setAttractions(Set<Attraction> attractions) {
+	public void setAttractions(List<Attraction> attractions) {
 		this.attractions = attractions;
 	}
 
-	@Override
-	public void applyPromotion(User user, Set<Attraction> attractionsSuggested) {
-		if (isActive()) {
-			attractionsSuggested.add(attractionFree);
-		}
+	public List<Attraction> getAttractions() {
+		return attractions;
 	}
 
 	@Override
-	public boolean applyToUser(User user, Set<Attraction> attractionsSuggested) {
+	public void applyPromotion(User user, Suggestion suggestion) {
+		if (isActive()) {
+			List<Attraction> attractionsSuggested = suggestion.getAttractionsSuggested();
+			Iterator<Attraction> iteratorAttractionsSuggested = attractionsSuggested.iterator();
 
-		Iterator<Attraction> iteratorAttractionsSuggested = attractionsSuggested.iterator();
+			Boolean promotionApplied = Boolean.FALSE;
 
-		boolean apply = true;
+			while (iteratorAttractionsSuggested.hasNext() && !promotionApplied) {
+				Attraction attraction = iteratorAttractionsSuggested.next();
 
-		while (iteratorAttractionsSuggested.hasNext() && apply) {
-			Attraction attraction = iteratorAttractionsSuggested.next();
+				Iterator<Attraction> iteratorAttractions = this.attractions.iterator();
 
-			Iterator<Attraction> iteratorAttractions = this.attractions.iterator();
+				while (iteratorAttractions.hasNext() && !promotionApplied) {
+					Attraction attractionPurchased = iteratorAttractions.next();
 
-			while (iteratorAttractions.hasNext() && apply) {
-				Attraction attractionPurchased = iteratorAttractions.next();
-
-				if (isSameAttraction(attraction, attractionPurchased)) {
-					apply = false;
+					if (isSameAttraction(attraction, attractionPurchased) && this.attractionFree.allowUser(user)) {
+						suggestion.addAttractionForSuggested(this.attractionFree);
+						promotionApplied = Boolean.TRUE;
+					}
 				}
 			}
 		}
-
-		return apply;
 	}
 
 	private boolean isSameAttraction(Attraction attraction, Attraction attractionPurchased) {
-		return attraction.getX() == attractionPurchased.getX() && attraction.getY() == attractionPurchased.getY();
+		return attraction.getId().equals(attractionPurchased.getId());
 	}
 
 	private boolean isActive() {
 		Date today = new Date();
 		return today.after(this.startDate) && today.before(this.endDate);
-	}
-
-	public Set<Attraction> getAttractions() {
-		return attractions;
 	}
 
 }
