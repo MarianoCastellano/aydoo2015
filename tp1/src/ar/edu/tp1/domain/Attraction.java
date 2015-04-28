@@ -94,4 +94,8 @@ public class Attraction {
 			return this.getId().equals(attraction.getId());
 		}
 	}
+
+	public boolean isSameAttraction(Attraction attractionForSuggest) {
+		return this.equals(attractionForSuggest);
+	}
 }

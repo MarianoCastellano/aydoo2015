@@ -1,9 +1,9 @@
 package ar.edu.tp1.test;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -27,7 +27,7 @@ public class PromotionTest {
 		SecretaryTourism tierraMedia = new SecretaryTourism(createAttractions());
 		addPorcetagePromotions(tierraMedia);
 
-		List<Suggestion> suggestions = tierraMedia.suggestedVisits(joseph);
+		Set<Suggestion> suggestions = tierraMedia.suggestVisits(joseph);
 
 		Suggestion suggestion = suggestions.iterator().next();
 
@@ -41,7 +41,7 @@ public class PromotionTest {
 		SecretaryTourism tierraMedia = new SecretaryTourism(createAttractions());
 		addAbsolutePromotions(tierraMedia);
 
-		List<Suggestion> suggestions = tierraMedia.suggestedVisits(joseph);
+		Set<Suggestion> suggestions = tierraMedia.suggestVisits(joseph);
 
 		Suggestion suggestion = suggestions.iterator().next();
 
@@ -55,15 +55,15 @@ public class PromotionTest {
 		SecretaryTourism tierraMedia = new SecretaryTourism(createAttractionsForPromotion());
 		addAxBPromotions(tierraMedia);
 
-		List<Suggestion> suggestions = tierraMedia.suggestedVisits(joseph);
+		Set<Suggestion> suggestions = tierraMedia.suggestVisits(joseph);
 
 		Suggestion suggestion = suggestions.iterator().next();
 
 		Assert.assertEquals(2, suggestion.getAttractionsSuggested().size());
 	}
 
-	private List<Attraction> createAttractions() {
-		List<Attraction> attractions = new ArrayList<Attraction>();
+	private Set<Attraction> createAttractions() {
+		Set<Attraction> attractions = new HashSet<Attraction>();
 		Attraction landscape = new Attraction(new Integer(1), 10f, 20f, 500f, 100f, AttractionType.LANDSCAPE,
 				new Integer(100));
 		attractions.add(landscape);
@@ -71,7 +71,7 @@ public class PromotionTest {
 	}
 
 	private void addPorcetagePromotions(SecretaryTourism tierraMedia) {
-		List<Attraction> attractions = createAttractionsForPromotion();
+		Set<Attraction> attractions = createAttractionsForPromotion();
 
 		Promotable porcentagePromotion = new PercentagePromotion(startDate(), endDate(), attractions, 10f);
 
@@ -79,7 +79,7 @@ public class PromotionTest {
 	}
 
 	private void addAbsolutePromotions(SecretaryTourism tierraMedia) {
-		List<Attraction> attractions = createAttractionsForPromotion();
+		Set<Attraction> attractions = createAttractionsForPromotion();
 
 		Promotable absolutePromotion = new AbsolutePromotion(startDate(), endDate(), attractions, 1000f);
 
@@ -87,7 +87,7 @@ public class PromotionTest {
 	}
 
 	private void addAxBPromotions(SecretaryTourism tierraMedia) {
-		List<Attraction> attractions = createAttractionsForPromotion();
+		Set<Attraction> attractions = createAttractionsForPromotion();
 
 		Attraction tasing = new Attraction(new Integer(2), 10f, 20f, 20f, 120f, AttractionType.LANDSCAPE, new Integer(1));
 
@@ -96,8 +96,8 @@ public class PromotionTest {
 		tierraMedia.addPromotion(abPromotion);
 	}
 
-	private List<Attraction> createAttractionsForPromotion() {
-		List<Attraction> attractions = new ArrayList<Attraction>();
+	private Set<Attraction> createAttractionsForPromotion() {
+		Set<Attraction> attractions = new HashSet<Attraction>();
 		Attraction landscape = new Attraction(new Integer(3), 12f, 24f, 500f, 3600f, AttractionType.LANDSCAPE, new Integer(110));
 		Attraction tasing = new Attraction(new Integer(4), 20f, 20f, 1500f, 3600f, AttractionType.TASING, new Integer(100));
 		attractions.add(landscape);

@@ -2,16 +2,16 @@ package ar.edu.tp1.domain;
 
 import java.util.Date;
 import java.util.Iterator;
-import java.util.List;
+import java.util.Set;
 
 public class AxBPromotion implements Promotable {
 
-	private List<Attraction> attractions;
+	private Set<Attraction> attractions;
 	private Date startDate;
 	private Date endDate;
 	private Attraction attractionFree;
 
-	public AxBPromotion(Date startDate, Date endDate, List<Attraction> attractions, Attraction attractionFree) {
+	public AxBPromotion(Date startDate, Date endDate, Set<Attraction> attractions, Attraction attractionFree) {
 		this.startDate = startDate;
 		this.endDate = endDate;
 		this.attractions = attractions;
@@ -42,18 +42,14 @@ public class AxBPromotion implements Promotable {
 		this.attractionFree = attractionFree;
 	}
 
-	public void setAttractions(List<Attraction> attractions) {
-		this.attractions = attractions;
-	}
-
-	public List<Attraction> getAttractions() {
+	public Set<Attraction> getAttractions() {
 		return attractions;
 	}
 
 	@Override
 	public void applyPromotion(User user, Suggestion suggestion) {
 		if (isActive()) {
-			List<Attraction> attractionsSuggested = suggestion.getAttractionsSuggested();
+			Set<Attraction> attractionsSuggested = suggestion.getAttractionsSuggested();
 			Iterator<Attraction> iteratorAttractionsSuggested = attractionsSuggested.iterator();
 
 			Boolean promotionApplied = Boolean.FALSE;

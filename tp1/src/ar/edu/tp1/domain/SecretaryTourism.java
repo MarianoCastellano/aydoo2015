@@ -1,43 +1,51 @@
 package ar.edu.tp1.domain;
 
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
+import java.util.Set;
 
 public class SecretaryTourism {
 
-	private List<Attraction> attractions;
-	private List<Promotable> promotions;
+	private Set<Attraction> attractions;
+	private Set<Promotable> promotions;
 
-	public SecretaryTourism(List<Attraction> attractions) {
+	public SecretaryTourism(Set<Attraction> attractions) {
 		this.attractions = attractions;
-		promotions = new ArrayList<Promotable>();
+		promotions = new HashSet<Promotable>();
 	}
 
 	public void addPromotion(Promotable promotion) {
 		this.promotions.add(promotion);
 	}
 
-	public List<Promotable> getPromotions() {
+	public Set<Promotable> getPromotions() {
 		return promotions;
 	}
 
-	public List<Suggestion> suggestedVisits(User user) {
+	public Set<Suggestion> suggestVisits(User user) {
+		Set<Suggestion> suggestions = new HashSet<Suggestion>();
 
-		List<Suggestion> suggestions = new ArrayList<Suggestion>();
+		Iterator<Attraction> iteratorAttractions = this.attractions.iterator();
 
-		for (int i = 0; i < 2; i++) {
-			Suggestion suggestion = suggestVisits(user);
+		while (iteratorAttractions.hasNext()) {
+			Attraction attractionForSuggest = (Attraction) iteratorAttractions.next();
 
-			applyPromotions(user, suggestion);
+			Suggestion suggestion = suggestVisitsForAttraction(user, attractionForSuggest);
 
-			suggestions.add(suggestion);
+			this.applyPromotions(user, suggestion);
 
-			Collections.shuffle(this.attractions);
+			this.addSuggestion(suggestions, suggestion);
 		}
 
 		return suggestions;
+	}
+
+	private void addSuggestion(Set<Suggestion> suggestions, Suggestion suggestion) {
+		Set<Attraction> attractionsSuggested = suggestion.getAttractionsSuggested();
+
+		if (!attractionsSuggested.isEmpty()) {
+			suggestions.add(suggestion);
+		}
 	}
 
 	private void applyPromotions(User user, Suggestion suggestion) {
@@ -50,16 +58,20 @@ public class SecretaryTourism {
 		}
 	}
 
-	private Suggestion suggestVisits(User user) {
+	private Suggestion suggestVisitsForAttraction(User user, Attraction attractionForSuggest) {
 		Iterator<Attraction> iteratorAttractions = this.attractions.iterator();
 
-		List<Attraction> attractionsSuggested = new ArrayList<Attraction>();
+		Set<Attraction> attractionsSuggested = new HashSet<Attraction>();
 
-		while (iteratorAttractions.hasNext()) {
-			Attraction attraction = iteratorAttractions.next();
+		if (attractionForSuggest.allowUser(user)) {
+			attractionsSuggested.add(attractionForSuggest);
 
-			if (attraction.allowUser(user)) {
-				attractionsSuggested.add(attraction);
+			while (iteratorAttractions.hasNext()) {
+				Attraction attraction = iteratorAttractions.next();
+
+				if (attraction.allowUser(user)) {
+					attractionsSuggested.add(attraction);
+				}
 			}
 		}
 

@@ -1,7 +1,7 @@
 package ar.edu.tp1.test;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -19,11 +19,11 @@ public class SuggestVisitsTest {
 		User joseph = new User(1000f, 3600f, AttractionType.LANDSCAPE, 0f);
 
 		SecretaryTourism tierraMedia = new SecretaryTourism(createAttractions());
-		List<Suggestion> suggestions = tierraMedia.suggestedVisits(joseph);
+		Set<Suggestion> suggestions = tierraMedia.suggestVisits(joseph);
 
 		Suggestion suggestion = suggestions.iterator().next();
 
-		Assert.assertEquals(1, suggestion.getAttractionsSuggested().size());
+		Assert.assertEquals(2, suggestion.getAttractionsSuggested().size());
 	}
 
 	@Test
@@ -31,11 +31,11 @@ public class SuggestVisitsTest {
 		User joseph = new User(1000f, 3600f, AttractionType.LANDSCAPE, 0f);
 
 		SecretaryTourism tierraMedia = new SecretaryTourism(createAttractions());
-		List<Suggestion> suggestions = tierraMedia.suggestedVisits(joseph);
+		Set<Suggestion> suggestions = tierraMedia.suggestVisits(joseph);
 
 		Suggestion suggestion = suggestions.iterator().next();
 
-		Assert.assertEquals(1, suggestion.getAttractionsSuggested().size());
+		Assert.assertEquals(2, suggestion.getAttractionsSuggested().size());
 	}
 
 	@Test
@@ -43,11 +43,11 @@ public class SuggestVisitsTest {
 		User joseph = new User(1000f, 3600f, AttractionType.LANDSCAPE, 0f);
 
 		SecretaryTourism tierraMedia = new SecretaryTourism(createAttractions());
-		List<Suggestion> suggestions = tierraMedia.suggestedVisits(joseph);
+		Set<Suggestion> suggestions = tierraMedia.suggestVisits(joseph);
 
 		Suggestion suggestion = suggestions.iterator().next();
 
-		Assert.assertEquals(1, suggestion.getAttractionsSuggested().size());
+		Assert.assertEquals(2, suggestion.getAttractionsSuggested().size());
 	}
 
 	@Test
@@ -55,24 +55,24 @@ public class SuggestVisitsTest {
 		User joseph = new User(1000f, 3600f, AttractionType.LANDSCAPE, 0f);
 
 		SecretaryTourism tierraMedia = new SecretaryTourism(createAttractions());
-		List<Suggestion> suggestions = tierraMedia.suggestedVisits(joseph);
+		Set<Suggestion> suggestions = tierraMedia.suggestVisits(joseph);
 
 		Suggestion suggestion = suggestions.iterator().next();
 
-		Assert.assertEquals(1, suggestion.getAttractionsSuggested().size());
+		Assert.assertEquals(2, suggestion.getAttractionsSuggested().size());
 	}
 
-	private List<Attraction> createAttractions() {
-		List<Attraction> attractions = new ArrayList<Attraction>();
-		Attraction landscape = new Attraction(new Integer(1), 10f, 20f, 500f, 3600f, AttractionType.LANDSCAPE,
-				new Integer(100));
-		Attraction tasing = new Attraction(new Integer(2), 20f, 20f, 1500f, 3600f, AttractionType.TASING, new Integer(
-				100));
-		Attraction adventure = new Attraction(new Integer(3), 55f, 33f, 2000f, 3600f, AttractionType.ADVENTURE,
-				new Integer(100));
+	private Set<Attraction> createAttractions() {
+		Set<Attraction> attractions = new HashSet<Attraction>();
+		Attraction landscape = new Attraction(new Integer(1), 10f, 20f, 500f, 3600f, AttractionType.LANDSCAPE, new Integer(100));
+		Attraction tasing = new Attraction(new Integer(2), 20f, 20f, 1500f, 3600f, AttractionType.TASING, new Integer(100));
+		Attraction adventure = new Attraction(new Integer(3), 55f, 33f, 2000f, 3600f, AttractionType.ADVENTURE, new Integer(100));
+		Attraction otherLandscape = new Attraction(new Integer(4), 22f, 100f, 100f, 120f, AttractionType.LANDSCAPE, new Integer(100));
+
 		attractions.add(landscape);
 		attractions.add(tasing);
 		attractions.add(adventure);
+		attractions.add(otherLandscape);
 		return attractions;
 	}
 }

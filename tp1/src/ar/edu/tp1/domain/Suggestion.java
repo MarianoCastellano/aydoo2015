@@ -1,16 +1,16 @@
 package ar.edu.tp1.domain;
 
-import java.util.List;
+import java.util.Set;
 
 public class Suggestion {
 
-	private List<Attraction> attractionsSuggested;
+	private Set<Attraction> attractionsSuggested;
 
-	public Suggestion(List<Attraction> attractionsSuggested) {
+	public Suggestion(Set<Attraction> attractionsSuggested) {
 		this.attractionsSuggested = attractionsSuggested;
 	}
 
-	public List<Attraction> getAttractionsSuggested() {
+	public Set<Attraction> getAttractionsSuggested() {
 		return attractionsSuggested;
 	}
 

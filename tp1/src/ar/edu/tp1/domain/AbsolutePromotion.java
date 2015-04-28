@@ -2,16 +2,16 @@ package ar.edu.tp1.domain;
 
 import java.util.Date;
 import java.util.Iterator;
-import java.util.List;
+import java.util.Set;
 
 public class AbsolutePromotion implements Promotable {
 
-	private List<Attraction> attractions;
+	private Set<Attraction> attractions;
 	private Date startDate;
 	private Date endDate;
 	private Float costTotal;
 
-	public AbsolutePromotion(Date startDate, Date endDate, List<Attraction> attractions, Float costTotal) {
+	public AbsolutePromotion(Date startDate, Date endDate, Set<Attraction> attractions, Float costTotal) {
 		this.startDate = startDate;
 		this.endDate = endDate;
 		this.attractions = attractions;
@@ -42,7 +42,7 @@ public class AbsolutePromotion implements Promotable {
 		this.costTotal = costTotal;
 	}
 
-	public List<Attraction> getAttractions() {
+	public Set<Attraction> getAttractions() {
 		return attractions;
 	}
 
@@ -50,7 +50,7 @@ public class AbsolutePromotion implements Promotable {
 	public void applyPromotion(User user, Suggestion suggestion) {
 		if (isActive()) {
 
-			List<Attraction> attractionsSuggested = suggestion.getAttractionsSuggested();
+			Set<Attraction> attractionsSuggested = suggestion.getAttractionsSuggested();
 
 			Iterator<Attraction> iteratorAttractionSuggested = attractionsSuggested.iterator();
 
