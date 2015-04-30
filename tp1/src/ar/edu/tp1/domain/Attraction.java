@@ -86,6 +86,11 @@ public class Attraction {
 	}
 
 	@Override
+	public int hashCode() {
+		return (int) id;
+	}
+
+	@Override
 	public boolean equals(Object obj) {
 		if (this.getId() == null) {
 			return this == obj;

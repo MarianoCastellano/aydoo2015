@@ -62,6 +62,18 @@ public class PromotionTest {
 		Assert.assertEquals(2, suggestion.getAttractionsSuggested().size());
 	}
 
+	@Test
+	public void suggestedVisitsShouldDiscountMoneyWhenAbsolutePromotionIsActive() {
+		User joseph = new User(1000f, 3600f, AttractionType.LANDSCAPE, 0f);
+
+		SecretaryTourism tierraMedia = new SecretaryTourism(createAttractions());
+		addAbsolutePromotions(tierraMedia);
+
+		tierraMedia.suggestVisits(joseph);
+
+		Assert.assertEquals(new Float(0), joseph.getMoney());
+	}
+
 	private Set<Attraction> createAttractions() {
 		Set<Attraction> attractions = new HashSet<Attraction>();
 		Attraction landscape = new Attraction(new Integer(1), 10f, 20f, 500f, 100f, AttractionType.LANDSCAPE,
@@ -81,6 +93,11 @@ public class PromotionTest {
 	private void addAbsolutePromotions(SecretaryTourism tierraMedia) {
 		Set<Attraction> attractions = createAttractionsForPromotion();
 
+		Attraction landscape = new Attraction(new Integer(1), 10f, 20f, 500f, 100f, AttractionType.LANDSCAPE,
+				new Integer(100));
+
+		attractions.add(landscape);
+
 		Promotable absolutePromotion = new AbsolutePromotion(startDate(), endDate(), attractions, 1000f);
 
 		tierraMedia.addPromotion(absolutePromotion);
@@ -89,7 +106,8 @@ public class PromotionTest {
 	private void addAxBPromotions(SecretaryTourism tierraMedia) {
 		Set<Attraction> attractions = createAttractionsForPromotion();
 
-		Attraction tasing = new Attraction(new Integer(2), 10f, 20f, 20f, 120f, AttractionType.LANDSCAPE, new Integer(1));
+		Attraction tasing = new Attraction(new Integer(2), 10f, 20f, 20f, 120f, AttractionType.LANDSCAPE,
+				new Integer(1));
 
 		Promotable abPromotion = new AxBPromotion(startDate(), endDate(), attractions, tasing);
 
@@ -98,8 +116,10 @@ public class PromotionTest {
 
 	private Set<Attraction> createAttractionsForPromotion() {
 		Set<Attraction> attractions = new HashSet<Attraction>();
-		Attraction landscape = new Attraction(new Integer(3), 12f, 24f, 500f, 3600f, AttractionType.LANDSCAPE, new Integer(110));
-		Attraction tasing = new Attraction(new Integer(4), 20f, 20f, 1500f, 3600f, AttractionType.TASING, new Integer(100));
+		Attraction landscape = new Attraction(new Integer(3), 12f, 24f, 500f, 3600f, AttractionType.LANDSCAPE,
+				new Integer(110));
+		Attraction tasing = new Attraction(new Integer(4), 20f, 20f, 1500f, 3600f, AttractionType.TASING, new Integer(
+				100));
 		attractions.add(landscape);
 		attractions.add(tasing);
 		return attractions;
