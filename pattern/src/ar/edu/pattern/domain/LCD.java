@@ -1,4 +1,4 @@
-package ar.edu.pattern;
+package ar.edu.pattern.domain;
 
 public class LCD extends TV {
 

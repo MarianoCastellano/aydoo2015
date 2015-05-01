@@ -1,4 +1,6 @@
-package ar.edu.pattern;
+package ar.edu.pattern.domain;
+
+import ar.edu.pattern.factory.TvAbstractFactory;
 
 public class EnsamblajeTV {
 
