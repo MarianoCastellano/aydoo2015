@@ -46,10 +46,12 @@ public class AbsolutePromotion implements Promotable {
 	}
 
 	@Override
-	public void applyPromotion(Suggestion suggestion) {
+	public Float calculateCost(Suggestion suggestion) {
+		Float costTotal = suggestion.calculateCostTotalForAttractions();
 		if (isActive() && isAppliedPromotion(suggestion)) {
-			suggestion.setCostTotal(suggestion.getAttractionCostTotal() - this.costTotal);
+			return costTotal - this.costTotal;
 		}
+		return costTotal;
 	}
 
 	private boolean isAppliedPromotion(Suggestion suggestion) {

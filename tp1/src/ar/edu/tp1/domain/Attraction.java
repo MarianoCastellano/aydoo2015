@@ -9,6 +9,7 @@ public class Attraction {
 	private Float visitTime;
 	private AttractionType type;
 	private Integer capacity;
+	private Integer purchasedTickets;
 
 	public Attraction(Integer id, Float x, Float y, Float cost, Float visitTime, AttractionType type, Integer capacity) {
 		this.id = id;
@@ -18,6 +19,7 @@ public class Attraction {
 		this.visitTime = visitTime;
 		this.type = type;
 		this.capacity = capacity;
+		this.purchasedTickets = new Integer(0);
 	}
 
 	public Integer getCapacity() {
@@ -62,6 +64,14 @@ public class Attraction {
 
 	public Integer getId() {
 		return id;
+	}
+
+	public void purchaseTicket() {
+		this.purchasedTickets++;
+	}
+
+	public Integer getPurchaseTickets() {
+		return this.purchasedTickets;
 	}
 
 	public boolean hasMoneyEnough(Float money) {

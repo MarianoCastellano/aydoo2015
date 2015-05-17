@@ -46,11 +46,12 @@ public class PercentagePromotion implements Promotable {
 	}
 
 	@Override
-	public void applyPromotion(Suggestion suggestion) {
+	public Float calculateCost(Suggestion suggestion) {
+		Float costTotal = suggestion.calculateCostTotalForAttractions();
 		if (isActive() && isAppliedPromotion(suggestion)) {
-			float porcentage = (this.porcentage / 100) * suggestion.getAttractionCostTotal();
-			suggestion.setCostTotal(porcentage);
+			return (this.porcentage / 100) * costTotal;
 		}
+		return costTotal;
 	}
 
 	private boolean isAppliedPromotion(Suggestion suggestion) {

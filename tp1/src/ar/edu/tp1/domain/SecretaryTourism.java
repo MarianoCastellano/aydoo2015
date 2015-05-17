@@ -57,7 +57,9 @@ public class SecretaryTourism {
 		while (iteratorPromotions.hasNext()) {
 			Promotable promotion = iteratorPromotions.next();
 
-			promotion.applyPromotion(suggestion);
+			Float calculateCost = promotion.calculateCost(suggestion);
+
+			suggestion.setCostTotal(calculateCost);
 		}
 	}
 

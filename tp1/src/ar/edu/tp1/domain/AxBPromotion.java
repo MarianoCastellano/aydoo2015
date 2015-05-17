@@ -47,7 +47,7 @@ public class AxBPromotion implements Promotable {
 	}
 
 	@Override
-	public void applyPromotion(Suggestion suggestion) {
+	public Float calculateCost(Suggestion suggestion) {
 		if (isActive()) {
 			Set<Attraction> attractionsSuggested = suggestion.getAttractionsSuggested();
 			Iterator<Attraction> iteratorAttractionsSuggested = attractionsSuggested.iterator();
@@ -63,11 +63,15 @@ public class AxBPromotion implements Promotable {
 					Attraction attractionPurchased = iteratorAttractions.next();
 
 					if (isSameAttraction(attraction, attractionPurchased)) {
+						Float cost = suggestion.calculateCostTotalForAttractions();
+						this.attractionFree.setCost(0f);
 						suggestion.addAttractionForSuggested(this.attractionFree);
+						return cost;
 					}
 				}
 			}
 		}
+		return suggestion.calculateCostTotalForAttractions();
 	}
 
 	private boolean isSameAttraction(Attraction attraction, Attraction attractionPurchased) {

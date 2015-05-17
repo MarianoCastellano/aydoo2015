@@ -9,7 +9,7 @@ public class Suggestion {
 
 	public Suggestion(Set<Attraction> attractionsSuggested) {
 		this.attractionsSuggested = attractionsSuggested;
-		this.costTotal = getAttractionCostTotal();
+		this.costTotal = 0f;
 	}
 
 	public Set<Attraction> getAttractionsSuggested() {
@@ -28,11 +28,19 @@ public class Suggestion {
 		return costTotal;
 	}
 
-	public Float getAttractionCostTotal() {
-		for (Attraction attraction : attractionsSuggested) {
-			costTotal = attraction.getCost();
+	public Float calculateCostTotalForAttractions() {
+		Float costTotal = 0f;
+		for (Attraction attraction : getAttractionsSuggested()) {
+			costTotal += attraction.getCost();
 		}
 		return costTotal;
 	}
 
+	public Float calculatePurchasedTickets() {
+		Float purchasedTickets = 0f;
+		for (Attraction attraction : getAttractionsSuggested()) {
+			purchasedTickets += attraction.getPurchaseTickets();
+		}
+		return purchasedTickets;
+	}
 }
