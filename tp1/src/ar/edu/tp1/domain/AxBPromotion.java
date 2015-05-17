@@ -47,7 +47,7 @@ public class AxBPromotion implements Promotable {
 	}
 
 	@Override
-	public void applyPromotion(User user, Suggestion suggestion) {
+	public void applyPromotion(Suggestion suggestion) {
 		if (isActive()) {
 			Set<Attraction> attractionsSuggested = suggestion.getAttractionsSuggested();
 			Iterator<Attraction> iteratorAttractionsSuggested = attractionsSuggested.iterator();
@@ -62,9 +62,8 @@ public class AxBPromotion implements Promotable {
 				while (iteratorAttractions.hasNext() && !promotionApplied) {
 					Attraction attractionPurchased = iteratorAttractions.next();
 
-					if (isSameAttraction(attraction, attractionPurchased) && this.attractionFree.allowUser(user)) {
+					if (isSameAttraction(attraction, attractionPurchased)) {
 						suggestion.addAttractionForSuggested(this.attractionFree);
-						promotionApplied = Boolean.TRUE;
 					}
 				}
 			}

@@ -103,4 +103,13 @@ public class Attraction {
 	public boolean isSameAttraction(Attraction attractionForSuggest) {
 		return this.equals(attractionForSuggest);
 	}
+
+	public Double distanceTo(Attraction destination) {
+		double originX = this.getX();
+		double originY = this.getY();
+		double destinationX = destination.getX();
+		double destinationY = destination.getY();
+
+		return Math.sqrt(Math.pow(destinationX - originX, 2) + Math.pow(destinationY - originY, 2));
+	}
 }

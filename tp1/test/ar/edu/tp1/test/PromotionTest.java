@@ -14,64 +14,87 @@ import ar.edu.tp1.domain.AttractionType;
 import ar.edu.tp1.domain.AxBPromotion;
 import ar.edu.tp1.domain.PercentagePromotion;
 import ar.edu.tp1.domain.Promotable;
-import ar.edu.tp1.domain.SecretaryTourism;
 import ar.edu.tp1.domain.Suggestion;
-import ar.edu.tp1.domain.User;
 
 public class PromotionTest {
 
 	@Test
-	public void suggestedVisitsShouldSuggestsPromotionsWhenPromotionIsActive() {
-		User joseph = new User(1000f, 3600f, AttractionType.LANDSCAPE, 0f);
+	public void applyAbsolutePromotionShouldDiscountCostTotal() {
+		Promotable promotable = new AbsolutePromotion(startDate(), endDate(), createAttractions(), 500f);
+		Suggestion suggestion = createSuggestions();
 
-		SecretaryTourism tierraMedia = new SecretaryTourism(createAttractions());
-		addPorcetagePromotions(tierraMedia);
+		promotable.applyPromotion(suggestion);
 
-		Set<Suggestion> suggestions = tierraMedia.suggestVisits(joseph);
+		Float costTotal = suggestion.getCostTotal();
 
-		Suggestion suggestion = suggestions.iterator().next();
-
-		Assert.assertEquals(1, suggestion.getAttractionsSuggested().size());
+		Assert.assertEquals(0f, costTotal, 0.001);
 	}
 
 	@Test
-	public void suggestedVisitsShouldSuggestsPromotionsWhenAbsolutePromotionIsActive() {
-		User joseph = new User(1000f, 3600f, AttractionType.LANDSCAPE, 0f);
+	public void applyAbsolutePromotionShouldNotDiscountCostTotal() {
+		Promotable promotable = new AbsolutePromotion(startDate(), endDate(), createOthersAttractions(), 500f);
+		Suggestion suggestion = createSuggestions();
 
-		SecretaryTourism tierraMedia = new SecretaryTourism(createAttractions());
-		addAbsolutePromotions(tierraMedia);
+		promotable.applyPromotion(suggestion);
 
-		Set<Suggestion> suggestions = tierraMedia.suggestVisits(joseph);
+		Float costTotal = suggestion.getCostTotal();
 
-		Suggestion suggestion = suggestions.iterator().next();
-
-		Assert.assertEquals(1, suggestion.getAttractionsSuggested().size());
+		Assert.assertEquals(500f, costTotal, 0.001);
 	}
 
 	@Test
-	public void suggestedVisitsShouldSuggestsPromotionsWhenAxBPromotionIsActive() {
-		User joseph = new User(1000f, 3600f, AttractionType.LANDSCAPE, 0f);
+	public void applyAxBPromotionShouldAddFreeAttraction() {
+		Promotable promotable = new AxBPromotion(startDate(), endDate(), createAttractions(), createFreeAttraction());
+		Suggestion suggestion = createSuggestions();
 
-		SecretaryTourism tierraMedia = new SecretaryTourism(createAttractionsForPromotion());
-		addAxBPromotions(tierraMedia);
-
-		Set<Suggestion> suggestions = tierraMedia.suggestVisits(joseph);
-
-		Suggestion suggestion = suggestions.iterator().next();
+		promotable.applyPromotion(suggestion);
 
 		Assert.assertEquals(2, suggestion.getAttractionsSuggested().size());
 	}
 
 	@Test
-	public void suggestedVisitsShouldDiscountMoneyWhenAbsolutePromotionIsActive() {
-		User joseph = new User(1000f, 3600f, AttractionType.LANDSCAPE, 0f);
+	public void applyAxBPromotionShouldNotAddFreeAttraction() {
+		Promotable promotable = new AxBPromotion(startDate(), endDate(), createOthersAttractions(),
+				createFreeAttraction());
+		Suggestion suggestion = createSuggestions();
 
-		SecretaryTourism tierraMedia = new SecretaryTourism(createAttractions());
-		addAbsolutePromotions(tierraMedia);
+		promotable.applyPromotion(suggestion);
 
-		tierraMedia.suggestVisits(joseph);
+		Assert.assertEquals(1, suggestion.getAttractionsSuggested().size());
+	}
 
-		Assert.assertEquals(new Float(0), joseph.getMoney());
+	@Test
+	public void applyPorcentualPromotionShouldDiscountCostTotal() {
+		Promotable promotable = new PercentagePromotion(startDate(), endDate(), createAttractions(), 50f);
+		Suggestion suggestion = createSuggestions();
+
+		promotable.applyPromotion(suggestion);
+
+		Float costTotal = suggestion.getCostTotal();
+
+		Assert.assertEquals(250f, costTotal, 0.001);
+	}
+
+	@Test
+	public void applyPorcentualPromotionShouldNotDiscountCostTotal() {
+		Promotable promotable = new PercentagePromotion(startDate(), endDate(), createOthersAttractions(), 50f);
+		Suggestion suggestion = createSuggestions();
+
+		promotable.applyPromotion(suggestion);
+
+		Float costTotal = suggestion.getCostTotal();
+
+		Assert.assertEquals(500f, costTotal, 0.001);
+	}
+
+	private Attraction createFreeAttraction() {
+		Attraction landscape = new Attraction(new Integer(2), 20f, 40f, 500f, 100f, AttractionType.LANDSCAPE,
+				new Integer(100));
+		return landscape;
+	}
+
+	private Suggestion createSuggestions() {
+		return new Suggestion(createAttractions());
 	}
 
 	private Set<Attraction> createAttractions() {
@@ -82,46 +105,11 @@ public class PromotionTest {
 		return attractions;
 	}
 
-	private void addPorcetagePromotions(SecretaryTourism tierraMedia) {
-		Set<Attraction> attractions = createAttractionsForPromotion();
-
-		Promotable porcentagePromotion = new PercentagePromotion(startDate(), endDate(), attractions, 10f);
-
-		tierraMedia.addPromotion(porcentagePromotion);
-	}
-
-	private void addAbsolutePromotions(SecretaryTourism tierraMedia) {
-		Set<Attraction> attractions = createAttractionsForPromotion();
-
-		Attraction landscape = new Attraction(new Integer(1), 10f, 20f, 500f, 100f, AttractionType.LANDSCAPE,
-				new Integer(100));
-
-		attractions.add(landscape);
-
-		Promotable absolutePromotion = new AbsolutePromotion(startDate(), endDate(), attractions, 1000f);
-
-		tierraMedia.addPromotion(absolutePromotion);
-	}
-
-	private void addAxBPromotions(SecretaryTourism tierraMedia) {
-		Set<Attraction> attractions = createAttractionsForPromotion();
-
-		Attraction tasing = new Attraction(new Integer(2), 10f, 20f, 20f, 120f, AttractionType.LANDSCAPE,
-				new Integer(1));
-
-		Promotable abPromotion = new AxBPromotion(startDate(), endDate(), attractions, tasing);
-
-		tierraMedia.addPromotion(abPromotion);
-	}
-
-	private Set<Attraction> createAttractionsForPromotion() {
+	private Set<Attraction> createOthersAttractions() {
 		Set<Attraction> attractions = new HashSet<Attraction>();
-		Attraction landscape = new Attraction(new Integer(3), 12f, 24f, 500f, 3600f, AttractionType.LANDSCAPE,
-				new Integer(110));
-		Attraction tasing = new Attraction(new Integer(4), 20f, 20f, 1500f, 3600f, AttractionType.TASING, new Integer(
-				100));
+		Attraction landscape = new Attraction(new Integer(3), 40f, 120f, 1500f, 100f, AttractionType.LANDSCAPE,
+				new Integer(100));
 		attractions.add(landscape);
-		attractions.add(tasing);
 		return attractions;
 	}
 

@@ -5,9 +5,11 @@ import java.util.Set;
 public class Suggestion {
 
 	private Set<Attraction> attractionsSuggested;
+	private Float costTotal;
 
 	public Suggestion(Set<Attraction> attractionsSuggested) {
 		this.attractionsSuggested = attractionsSuggested;
+		this.costTotal = getAttractionCostTotal();
 	}
 
 	public Set<Attraction> getAttractionsSuggested() {
@@ -18,12 +20,19 @@ public class Suggestion {
 		this.attractionsSuggested.add(attraction);
 	}
 
-	public Float getTotalCost() {
-		Float totalCost = 0f;
+	public void setCostTotal(Float costTotal) {
+		this.costTotal = costTotal;
+	}
+
+	public Float getCostTotal() {
+		return costTotal;
+	}
+
+	public Float getAttractionCostTotal() {
 		for (Attraction attraction : attractionsSuggested) {
-			totalCost += attraction.getCost();
+			costTotal = attraction.getCost();
 		}
-		return totalCost;
+		return costTotal;
 	}
 
 }

@@ -3,6 +3,7 @@ package ar.edu.tp1.domain;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
+import java.util.TreeSet;
 
 public class SecretaryTourism {
 
@@ -10,7 +11,9 @@ public class SecretaryTourism {
 	private Set<Promotable> promotions;
 
 	public SecretaryTourism(Set<Attraction> attractions) {
-		this.attractions = attractions;
+		// TODO Validar que attractions no sea null.
+		this.attractions = new TreeSet<Attraction>(new AttractionComparator());
+		this.attractions.addAll(attractions);
 		promotions = new HashSet<Promotable>();
 	}
 
@@ -54,7 +57,7 @@ public class SecretaryTourism {
 		while (iteratorPromotions.hasNext()) {
 			Promotable promotion = iteratorPromotions.next();
 
-			promotion.applyPromotion(user, suggestion);
+			promotion.applyPromotion(suggestion);
 		}
 	}
 

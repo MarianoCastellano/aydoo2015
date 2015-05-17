@@ -1,7 +1,6 @@
 package ar.edu.tp1.domain;
 
 import java.util.Date;
-import java.util.Iterator;
 import java.util.Set;
 
 public class AbsolutePromotion implements Promotable {
@@ -47,24 +46,14 @@ public class AbsolutePromotion implements Promotable {
 	}
 
 	@Override
-	public void applyPromotion(User user, Suggestion suggestion) {
-		if (isActive()) {
-
-			Set<Attraction> attractionsSuggested = suggestion.getAttractionsSuggested();
-
-			Iterator<Attraction> iteratorAttractionSuggested = attractionsSuggested.iterator();
-
-			Boolean promotionApplied = Boolean.FALSE;
-
-			while (iteratorAttractionSuggested.hasNext() && !promotionApplied) {
-				Attraction attraction = iteratorAttractionSuggested.next();
-
-				if (this.attractions.contains(attraction)) {
-					user.discountMoney(this.costTotal);
-					promotionApplied = Boolean.TRUE;
-				}
-			}
+	public void applyPromotion(Suggestion suggestion) {
+		if (isActive() && isAppliedPromotion(suggestion)) {
+			suggestion.setCostTotal(suggestion.getAttractionCostTotal() - this.costTotal);
 		}
+	}
+
+	private boolean isAppliedPromotion(Suggestion suggestion) {
+		return this.attractions.containsAll(suggestion.getAttractionsSuggested());
 	}
 
 	private boolean isActive() {

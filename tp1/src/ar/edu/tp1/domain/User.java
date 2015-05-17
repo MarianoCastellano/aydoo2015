@@ -38,8 +38,4 @@ public class User {
 		return money;
 	}
 
-	public void discountMoney(Float cost) {
-		this.money -= cost;
-	}
-
 }
