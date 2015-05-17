@@ -5,6 +5,3 @@ ant
 cd ..
 cd tp1
 ant
-cd ..
-cd pattern
-ant
