@@ -8,14 +8,16 @@ import java.util.Set;
 import org.junit.Assert;
 import org.junit.Test;
 
-import ar.edu.tp1.domain.AbsolutePromotion;
-import ar.edu.tp1.domain.Attraction;
-import ar.edu.tp1.domain.AttractionType;
-import ar.edu.tp1.domain.AxBPromotion;
-import ar.edu.tp1.domain.FamilyPackagePromotion;
-import ar.edu.tp1.domain.PercentagePromotion;
-import ar.edu.tp1.domain.Promotable;
-import ar.edu.tp1.domain.Suggestion;
+import ar.edu.tp1.domain.Position;
+import ar.edu.tp1.domain.attraction.Attraction;
+import ar.edu.tp1.domain.attraction.AttractionType;
+import ar.edu.tp1.domain.attraction.Suggestion;
+import ar.edu.tp1.domain.promotion.AbsolutePromotion;
+import ar.edu.tp1.domain.promotion.AxBPromotion;
+import ar.edu.tp1.domain.promotion.FamilyPackagePromotion;
+import ar.edu.tp1.domain.promotion.ForeignerPromotion;
+import ar.edu.tp1.domain.promotion.PercentagePromotion;
+import ar.edu.tp1.domain.promotion.Promotable;
 
 public class PromotionTest {
 
@@ -152,8 +154,29 @@ public class PromotionTest {
 		Assert.assertEquals(50f, costTotal, 0.001);
 	}
 
+	@Test
+	public void applyForeignerPromotionShouldDiscountCostTotal() {
+		Promotable promotable = new ForeignerPromotion(startDate(), endDate(), new Position(0f, 0f));
+		Suggestion suggestion = createSuggestionsForForeigner();
+
+		Float costTotal = promotable.calculateCost(suggestion);
+
+		Assert.assertEquals(250f, costTotal, 0.001);
+	}
+
+	@Test
+	public void applyForeignerPromotionShouldNotDiscountCostTotal() {
+		Promotable promotable = new ForeignerPromotion(startDate(), endDate(), new Position(400f, 200f));
+		Suggestion suggestion = createSuggestionsForForeigner();
+
+		Float costTotal = promotable.calculateCost(suggestion);
+
+		Assert.assertEquals(500f, costTotal, 0.001);
+	}
+
 	private Attraction createFreeAttraction() {
-		Attraction landscape = new Attraction(new Integer(2), 20f, 40f, 500f, 100f, AttractionType.LANDSCAPE,
+		Position position = new Position(20f, 40f);
+		Attraction landscape = new Attraction(new Integer(2), position, 500f, 100f, AttractionType.LANDSCAPE,
 				new Integer(100));
 		return landscape;
 	}
@@ -162,21 +185,36 @@ public class PromotionTest {
 		return new Suggestion(createAttractions());
 	}
 
+	private Suggestion createSuggestionsForForeigner() {
+		return new Suggestion(createAttractionsForForeignerPromotion());
+	}
+
 	private Suggestion createSuggestionsForFamilyPackagePromotionWithTickets(Integer purchasedTickets) {
 		return new Suggestion(createAttractionsForFamilyPackagePromotion(purchasedTickets));
 	}
 
 	private Set<Attraction> createAttractions() {
+		Position position = new Position(10f, 20f);
 		Set<Attraction> attractions = new HashSet<Attraction>();
-		Attraction landscape = new Attraction(new Integer(1), 10f, 20f, 500f, 100f, AttractionType.LANDSCAPE,
+		Attraction landscape = new Attraction(new Integer(1), position, 500f, 100f, AttractionType.LANDSCAPE,
+				new Integer(100));
+		attractions.add(landscape);
+		return attractions;
+	}
+
+	private Set<Attraction> createAttractionsForForeignerPromotion() {
+		Position position = new Position(400f, 200f);
+		Set<Attraction> attractions = new HashSet<Attraction>();
+		Attraction landscape = new Attraction(new Integer(1), position, 500f, 100f, AttractionType.LANDSCAPE,
 				new Integer(100));
 		attractions.add(landscape);
 		return attractions;
 	}
 
 	private Set<Attraction> createAttractionsForFamilyPackagePromotion(Integer purchasedTickets) {
+		Position position = new Position(10f, 20f);
 		Set<Attraction> attractions = new HashSet<Attraction>();
-		Attraction landscape = new Attraction(new Integer(1), 10f, 20f, 10f, 100f, AttractionType.LANDSCAPE,
+		Attraction landscape = new Attraction(new Integer(1), position, 10f, 100f, AttractionType.LANDSCAPE,
 				new Integer(100));
 		for (int i = 0; i < purchasedTickets; i++) {
 			landscape.purchaseTicket();
@@ -186,8 +224,9 @@ public class PromotionTest {
 	}
 
 	private Set<Attraction> createOthersAttractions() {
+		Position position = new Position(40f, 120f);
 		Set<Attraction> attractions = new HashSet<Attraction>();
-		Attraction landscape = new Attraction(new Integer(3), 40f, 120f, 1500f, 100f, AttractionType.LANDSCAPE,
+		Attraction landscape = new Attraction(new Integer(3), position, 1500f, 100f, AttractionType.LANDSCAPE,
 				new Integer(100));
 		attractions.add(landscape);
 		return attractions;

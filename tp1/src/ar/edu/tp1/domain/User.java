@@ -1,17 +1,21 @@
 package ar.edu.tp1.domain;
 
+import ar.edu.tp1.domain.attraction.AttractionType;
+
 public class User {
 
 	private Float money;
 	private Float timeRemaining;
 	private AttractionType favoriteAttraction;
 	private Float speed;
+	private Position position;
 
-	public User(Float money, Float timeRemaining, AttractionType favoriteAttraction, Float speed) {
+	public User(Float money, Float timeRemaining, AttractionType favoriteAttraction, Float speed, Position position) {
 		this.money = money;
 		this.timeRemaining = timeRemaining;
 		this.favoriteAttraction = favoriteAttraction;
 		this.speed = speed;
+		this.position = position;
 	}
 
 	public void setSpeed(Float speed) {
@@ -36,6 +40,10 @@ public class User {
 
 	public Float getMoney() {
 		return money;
+	}
+
+	public Position getPosition() {
+		return position;
 	}
 
 }

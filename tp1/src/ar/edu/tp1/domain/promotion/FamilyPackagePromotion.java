@@ -1,8 +1,11 @@
-package ar.edu.tp1.domain;
+package ar.edu.tp1.domain.promotion;
 
 import java.util.Date;
 import java.util.Iterator;
 import java.util.Set;
+
+import ar.edu.tp1.domain.attraction.Attraction;
+import ar.edu.tp1.domain.attraction.Suggestion;
 
 public class FamilyPackagePromotion implements Promotable {
 

@@ -1,20 +1,23 @@
-package ar.edu.tp1.domain;
+package ar.edu.tp1.domain.promotion;
 
 import java.util.Date;
 import java.util.Set;
 
-public class AbsolutePromotion implements Promotable {
+import ar.edu.tp1.domain.attraction.Attraction;
+import ar.edu.tp1.domain.attraction.Suggestion;
+
+public class PercentagePromotion implements Promotable {
 
 	private Set<Attraction> attractions;
 	private Date startDate;
 	private Date endDate;
-	private Float costTotal;
+	private Float porcentage;
 
-	public AbsolutePromotion(Date startDate, Date endDate, Set<Attraction> attractions, Float costTotal) {
+	public PercentagePromotion(Date startDate, Date endDate, Set<Attraction> attractions, Float porcentage) {
 		this.startDate = startDate;
 		this.endDate = endDate;
 		this.attractions = attractions;
-		this.costTotal = costTotal;
+		this.porcentage = porcentage;
 	}
 
 	public void setStartDate(Date startDate) {
@@ -33,12 +36,12 @@ public class AbsolutePromotion implements Promotable {
 		return startDate;
 	}
 
-	public Float getCostTotal() {
-		return costTotal;
+	public Float getPorcentage() {
+		return porcentage;
 	}
 
-	public void setCostTotal(Float costTotal) {
-		this.costTotal = costTotal;
+	public void setPorcentage(Float porcentage) {
+		this.porcentage = porcentage;
 	}
 
 	public Set<Attraction> getAttractions() {
@@ -49,7 +52,7 @@ public class AbsolutePromotion implements Promotable {
 	public Float calculateCost(Suggestion suggestion) {
 		Float costTotal = suggestion.calculateCostTotalForAttractions();
 		if (isActive() && isAppliedPromotion(suggestion)) {
-			return costTotal - this.costTotal;
+			return (this.porcentage / 100) * costTotal;
 		}
 		return costTotal;
 	}
@@ -62,5 +65,4 @@ public class AbsolutePromotion implements Promotable {
 		Date today = new Date();
 		return today.after(this.startDate) && today.before(this.endDate);
 	}
-
 }

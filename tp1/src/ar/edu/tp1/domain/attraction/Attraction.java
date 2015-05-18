@@ -1,20 +1,21 @@
-package ar.edu.tp1.domain;
+package ar.edu.tp1.domain.attraction;
+
+import ar.edu.tp1.domain.Position;
+import ar.edu.tp1.domain.User;
 
 public class Attraction {
 
 	private Integer id;
 	private Float cost;
-	private Float x;
-	private Float y;
+	private Position position;
 	private Float visitTime;
 	private AttractionType type;
 	private Integer capacity;
 	private Integer purchasedTickets;
 
-	public Attraction(Integer id, Float x, Float y, Float cost, Float visitTime, AttractionType type, Integer capacity) {
+	public Attraction(Integer id, Position position, Float cost, Float visitTime, AttractionType type, Integer capacity) {
 		this.id = id;
-		this.x = x;
-		this.y = y;
+		this.position = position;
 		this.cost = cost;
 		this.visitTime = visitTime;
 		this.type = type;
@@ -38,12 +39,8 @@ public class Attraction {
 		return visitTime;
 	}
 
-	public Float getX() {
-		return x;
-	}
-
-	public Float getY() {
-		return y;
+	public Position getPosition() {
+		return position;
 	}
 
 	public Float getCost() {
@@ -114,12 +111,4 @@ public class Attraction {
 		return this.equals(attractionForSuggest);
 	}
 
-	public Double distanceTo(Attraction destination) {
-		double originX = this.getX();
-		double originY = this.getY();
-		double destinationX = destination.getX();
-		double destinationY = destination.getY();
-
-		return Math.sqrt(Math.pow(destinationX - originX, 2) + Math.pow(destinationY - originY, 2));
-	}
 }
