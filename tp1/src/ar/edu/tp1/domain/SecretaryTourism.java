@@ -53,15 +53,45 @@ public class SecretaryTourism {
 	}
 
 	private void applyPromotions(User user, Suggestion suggestion) {
+		Promotable promotionUncombinable = findPromotionUncombinable();
+
+		if (promotionUncombinable != null) {
+			applyPromotionUncombinables(suggestion, promotionUncombinable);
+		} else {
+			applyPromotionCombinables(suggestion);
+		}
+	}
+
+	private void applyPromotionUncombinables(Suggestion suggestion, Promotable promotionUncombinable) {
+		applyCostTotal(suggestion, promotionUncombinable);
+	}
+
+	private void applyCostTotal(Suggestion suggestion, Promotable promotionUncombinable) {
+		Float calculateCost = promotionUncombinable.calculateCost(suggestion);
+
+		suggestion.setCostTotal(calculateCost);
+	}
+
+	private void applyPromotionCombinables(Suggestion suggestion) {
 		Iterator<Promotable> iteratorPromotions = this.promotions.iterator();
 
 		while (iteratorPromotions.hasNext()) {
 			Promotable promotion = iteratorPromotions.next();
 
-			Float calculateCost = promotion.calculateCost(suggestion);
-
-			suggestion.setCostTotal(calculateCost);
+			applyCostTotal(suggestion, promotion);
 		}
+	}
+
+	private Promotable findPromotionUncombinable() {
+		Iterator<Promotable> iterator = this.promotions.iterator();
+		while (iterator.hasNext()) {
+			Promotable promotable = (Promotable) iterator.next();
+
+			if (!promotable.isCombinable()) {
+				return promotable;
+			}
+		}
+		return null;
 	}
 
 	private Suggestion suggestVisitsForAttraction(User user, Attraction attractionForSuggest) {

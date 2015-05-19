@@ -85,4 +85,9 @@ public class AxBPromotion implements Promotable {
 		Date today = new Date();
 		return today.after(this.startDate) && today.before(this.endDate);
 	}
+
+	@Override
+	public Boolean isCombinable() {
+		return Boolean.TRUE;
+	}
 }

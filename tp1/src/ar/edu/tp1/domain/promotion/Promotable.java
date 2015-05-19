@@ -6,4 +6,5 @@ public interface Promotable {
 
 	Float calculateCost(Suggestion suggestion);
 
+	Boolean isCombinable();
 }

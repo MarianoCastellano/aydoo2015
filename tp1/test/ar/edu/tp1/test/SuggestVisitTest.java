@@ -1,5 +1,7 @@
 package ar.edu.tp1.test;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -12,6 +14,7 @@ import ar.edu.tp1.domain.User;
 import ar.edu.tp1.domain.attraction.Attraction;
 import ar.edu.tp1.domain.attraction.AttractionType;
 import ar.edu.tp1.domain.attraction.Suggestion;
+import ar.edu.tp1.domain.promotion.ForeignerPromotion;
 
 public class SuggestVisitTest {
 	
@@ -92,6 +95,19 @@ public class SuggestVisitTest {
 
 		Assert.assertEquals(2, suggestion.getAttractionsSuggested().size());
 	}
+	
+	@Test
+	public void suggestedVisitsShouldApplyPromotionUncombinable() {
+		User joseph = new User(1000f, 3600f, AttractionType.LANDSCAPE, 0f, new Position(180f, 180f));
+
+		SecretaryTourism tierraMedia = new SecretaryTourism(createAttractions());
+		tierraMedia.addPromotion(new ForeignerPromotion(startDate(), endDate(), new Position(200f, 200f)));
+		Set<Suggestion> suggestions = tierraMedia.suggestVisits(joseph);
+
+		Suggestion suggestion = suggestions.iterator().next();
+
+		Assert.assertEquals(300f, suggestion.getCostTotal(), 0.001);
+	}
 
 	private Set<Attraction> createAttractions() {
 		Set<Attraction> attractions = new HashSet<Attraction>();
@@ -119,5 +135,17 @@ public class SuggestVisitTest {
 		attractions.add(adventure);
 		attractions.add(otherLandscape);
 		return attractions;
+	}
+	
+	private Date startDate() {
+		Calendar calendar = Calendar.getInstance();
+		calendar.add(Calendar.DATE, -1);
+		return calendar.getTime();
+	}
+
+	private Date endDate() {
+		Calendar calendar = Calendar.getInstance();
+		calendar.add(Calendar.DATE, 1);
+		return calendar.getTime();
 	}
 }
