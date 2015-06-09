@@ -21,48 +21,18 @@ public class AxBPromotion implements Promotable {
 		this.attractionFree = attractionFree;
 	}
 
-	public void setStartDate(Date startDate) {
-		this.startDate = startDate;
-	}
-
-	public void setEndDate(Date endDate) {
-		this.endDate = endDate;
-	}
-
-	public Date getEndDate() {
-		return endDate;
-	}
-
-	public Date getStartDate() {
-		return startDate;
-	}
-
-	public Attraction getAttractionFree() {
-		return attractionFree;
-	}
-
-	public void setAttractionFree(Attraction attractionFree) {
-		this.attractionFree = attractionFree;
-	}
-
-	public Set<Attraction> getAttractions() {
-		return attractions;
-	}
-
 	@Override
 	public Float calculateCost(Suggestion suggestion) {
 		if (isActive()) {
 			Set<Attraction> attractionsSuggested = suggestion.getAttractionsSuggested();
 			Iterator<Attraction> iteratorAttractionsSuggested = attractionsSuggested.iterator();
 
-			Boolean promotionApplied = Boolean.FALSE;
-
-			while (iteratorAttractionsSuggested.hasNext() && !promotionApplied) {
+			while (iteratorAttractionsSuggested.hasNext()) {
 				Attraction attraction = iteratorAttractionsSuggested.next();
 
 				Iterator<Attraction> iteratorAttractions = this.attractions.iterator();
 
-				while (iteratorAttractions.hasNext() && !promotionApplied) {
+				while (iteratorAttractions.hasNext()) {
 					Attraction attractionPurchased = iteratorAttractions.next();
 
 					if (isSameAttraction(attraction, attractionPurchased)) {

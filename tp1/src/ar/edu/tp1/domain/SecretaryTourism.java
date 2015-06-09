@@ -1,7 +1,9 @@
 package ar.edu.tp1.domain;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 import ar.edu.tp1.domain.attraction.Attraction;
@@ -11,19 +13,15 @@ import ar.edu.tp1.domain.promotion.Promotable;
 public class SecretaryTourism {
 
 	private Set<Attraction> attractions;
-	private Set<Promotable> promotions;
+	private List<Promotable> promotions;
 
 	public SecretaryTourism(Set<Attraction> attractions) {
 		this.attractions = attractions;
-		promotions = new HashSet<Promotable>();
+		promotions = new ArrayList<Promotable>();
 	}
 
 	public void addPromotion(Promotable promotion) {
 		this.promotions.add(promotion);
-	}
-
-	public Set<Promotable> getPromotions() {
-		return promotions;
 	}
 
 	public Set<Suggestion> suggestVisits(User user) {

@@ -20,26 +20,6 @@ public class ForeignerPromotion implements Promotable {
 		this.position = position;
 	}
 
-	public Date getEndDate() {
-		return endDate;
-	}
-
-	public Date getStartDate() {
-		return startDate;
-	}
-
-	public void setEndDate(Date endDate) {
-		this.endDate = endDate;
-	}
-
-	public void setStartDate(Date startDate) {
-		this.startDate = startDate;
-	}
-
-	public Position getPosition() {
-		return position;
-	}
-
 	@Override
 	public Float calculateCost(Suggestion suggestion) {
 		Float costTotal = suggestion.calculateCostTotalForAttractions();

@@ -15,32 +15,19 @@ public class FamilyPackagePromotion implements Promotable {
 
 	private Date startDate;
 	private Date endDate;
+	private Integer purchasedTickets;
 
-	public FamilyPackagePromotion(Date startDate, Date endDate) {
+	public FamilyPackagePromotion(Date startDate, Date endDate, Integer purchasedTickets) {
 		this.startDate = startDate;
 		this.endDate = endDate;
-	}
-
-	public Date getEndDate() {
-		return endDate;
-	}
-
-	public Date getStartDate() {
-		return startDate;
-	}
-
-	public void setEndDate(Date endDate) {
-		this.endDate = endDate;
-	}
-
-	public void setStartDate(Date startDate) {
-		this.startDate = startDate;
+		this.purchasedTickets = purchasedTickets;
 	}
 
 	@Override
 	public Float calculateCost(Suggestion suggestion) {
-		Float costTotal = suggestion.calculateCostTotalForAttractions() * suggestion.calculatePurchasedTickets();
+		Float costTotal = suggestion.calculateCostTotalForAttractions();
 		if (isActive()) {
+			costTotal *= purchasedTickets;
 			Set<Attraction> attractionsSuggested = suggestion.getAttractionsSuggested();
 			Iterator<Attraction> iteratorAttractionsSuggested = attractionsSuggested.iterator();
 
@@ -56,8 +43,6 @@ public class FamilyPackagePromotion implements Promotable {
 	}
 
 	private Float getDiscountsForAttraction(Float discount, Attraction attraction) {
-		Integer purchasedTickets = attraction.getPurchaseTickets();
-
 		if (purchasedTickets.equals(new Integer(MINIMUM_PURCHASED_TICKETS))) {
 			discount += getGeneralDiscount(attraction).floatValue();
 		}

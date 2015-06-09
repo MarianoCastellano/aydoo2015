@@ -53,8 +53,7 @@ public class PromotionTest {
 
 	@Test
 	public void applyAxBPromotionShouldNotAddFreeAttraction() {
-		Promotable promotable = new AxBPromotion(startDate(), endDate(), createOthersAttractions(),
-				createFreeAttraction());
+		Promotable promotable = new AxBPromotion(startDate(), endDate(), createOthersAttractions(), createFreeAttraction());
 		Suggestion suggestion = createSuggestions();
 
 		promotable.calculateCost(suggestion);
@@ -86,8 +85,8 @@ public class PromotionTest {
 	public void applyFamilyPackagePromotionForOneTicketsShouldNotDiscountCostTotal() {
 		Integer purchasedTickets = 1;
 
-		Promotable promotable = new FamilyPackagePromotion(startDate(), endDate());
-		Suggestion suggestion = createSuggestionsForFamilyPackagePromotionWithTickets(purchasedTickets);
+		Promotable promotable = new FamilyPackagePromotion(startDate(), endDate(), purchasedTickets);
+		Suggestion suggestion = createSuggestionsForFamilyPackagePromotion();
 
 		Float costTotal = promotable.calculateCost(suggestion);
 
@@ -98,8 +97,8 @@ public class PromotionTest {
 	public void applyFamilyPackagePromotionForTwoTicketsShouldNotDiscountCostTotal() {
 		Integer purchasedTickets = 2;
 
-		Promotable promotable = new FamilyPackagePromotion(startDate(), endDate());
-		Suggestion suggestion = createSuggestionsForFamilyPackagePromotionWithTickets(purchasedTickets);
+		Promotable promotable = new FamilyPackagePromotion(startDate(), endDate(), purchasedTickets);
+		Suggestion suggestion = createSuggestionsForFamilyPackagePromotion();
 
 		Float costTotal = promotable.calculateCost(suggestion);
 
@@ -110,8 +109,8 @@ public class PromotionTest {
 	public void applyFamilyPackagePromotionForThreeTicketsShouldNotDiscountCostTotal() {
 		Integer purchasedTickets = 3;
 
-		Promotable promotable = new FamilyPackagePromotion(startDate(), endDate());
-		Suggestion suggestion = createSuggestionsForFamilyPackagePromotionWithTickets(purchasedTickets);
+		Promotable promotable = new FamilyPackagePromotion(startDate(), endDate(), purchasedTickets);
+		Suggestion suggestion = createSuggestionsForFamilyPackagePromotion();
 
 		Float costTotal = promotable.calculateCost(suggestion);
 
@@ -122,8 +121,8 @@ public class PromotionTest {
 	public void applyFamilyPackagePromotionForFourTicketsShouldDiscountCostTotal() {
 		Integer purchasedTickets = 4;
 
-		Promotable promotable = new FamilyPackagePromotion(startDate(), endDate());
-		Suggestion suggestion = createSuggestionsForFamilyPackagePromotionWithTickets(purchasedTickets);
+		Promotable promotable = new FamilyPackagePromotion(startDate(), endDate(), purchasedTickets);
+		Suggestion suggestion = createSuggestionsForFamilyPackagePromotion();
 
 		Float costTotal = promotable.calculateCost(suggestion);
 
@@ -134,8 +133,8 @@ public class PromotionTest {
 	public void applyFamilyPackagePromotionForFiveTicketsShouldDiscountCostTotal() {
 		Integer purchasedTickets = 5;
 
-		Promotable promotable = new FamilyPackagePromotion(startDate(), endDate());
-		Suggestion suggestion = createSuggestionsForFamilyPackagePromotionWithTickets(purchasedTickets);
+		Promotable promotable = new FamilyPackagePromotion(startDate(), endDate(), purchasedTickets);
+		Suggestion suggestion = createSuggestionsForFamilyPackagePromotion();
 
 		Float costTotal = promotable.calculateCost(suggestion);
 
@@ -146,8 +145,8 @@ public class PromotionTest {
 	public void applyFamilyPackagePromotionForSixTicketsShouldDiscountCostTotal() {
 		Integer purchasedTickets = 6;
 
-		Promotable promotable = new FamilyPackagePromotion(startDate(), endDate());
-		Suggestion suggestion = createSuggestionsForFamilyPackagePromotionWithTickets(purchasedTickets);
+		Promotable promotable = new FamilyPackagePromotion(startDate(), endDate(), purchasedTickets);
+		Suggestion suggestion = createSuggestionsForFamilyPackagePromotion();
 
 		Float costTotal = promotable.calculateCost(suggestion);
 
@@ -174,10 +173,111 @@ public class PromotionTest {
 		Assert.assertEquals(500f, costTotal, 0.001);
 	}
 
+	@Test
+	public void notApplyForeignerPromotionBecauseStartDateIsNotValid() {
+		Promotable promotable = new ForeignerPromotion(tomorrowDate(), endDate(), new Position(0f, 0f));
+		Suggestion suggestion = createSuggestionsForForeigner();
+
+		Float costTotal = promotable.calculateCost(suggestion);
+
+		Assert.assertEquals(500f, costTotal, 0.001);
+	}
+
+	@Test
+	public void notApplyPercentagePromotionBecauseStartDateIsNotValid() {
+		Promotable promotable = new PercentagePromotion(tomorrowDate(), endDate(), createAttractions(), 50f);
+		Suggestion suggestion = createSuggestions();
+
+		Float costTotal = promotable.calculateCost(suggestion);
+
+		Assert.assertEquals(500f, costTotal, 0.001);
+	}
+
+	@Test
+	public void notApplyAxBPromotionBecauseStartDateIsNotValid() {
+		Promotable promotable = new AxBPromotion(tomorrowDate(), endDate(), createAttractions(), createFreeAttraction());
+		Suggestion suggestion = createSuggestions();
+
+		Float costTotal = promotable.calculateCost(suggestion);
+
+		Assert.assertEquals(500f, costTotal, 0.001);
+	}
+
+	@Test
+	public void notApplyFamilyPackagePromotionBecauseStartDateIsNotValid() {
+		Promotable promotable = new FamilyPackagePromotion(tomorrowDate(), endDate(), 4);
+		Suggestion suggestion = createSuggestions();
+
+		Float costTotal = promotable.calculateCost(suggestion);
+
+		Assert.assertEquals(500f, costTotal, 0.001);
+	}
+
+	@Test
+	public void notApplyAbsolutePromotionBecauseStartDateIsNotValid() {
+		Promotable promotable = new AbsolutePromotion(tomorrowDate(), endDate(), createAttractions(), 400f);
+		Suggestion suggestion = createSuggestions();
+
+		Float costTotal = promotable.calculateCost(suggestion);
+
+		Assert.assertEquals(500f, costTotal, 0.001);
+	}
+
+	// //
+
+	@Test
+	public void notApplyForeignerPromotionBecauseEndDateIsNotValid() {
+		Promotable promotable = new ForeignerPromotion(startDate(), yesterdayDate(), new Position(0f, 0f));
+		Suggestion suggestion = createSuggestionsForForeigner();
+
+		Float costTotal = promotable.calculateCost(suggestion);
+
+		Assert.assertEquals(500f, costTotal, 0.001);
+	}
+
+	@Test
+	public void notApplyPercentagePromotionBecauseEndDateIsNotValid() {
+		Promotable promotable = new PercentagePromotion(startDate(), yesterdayDate(), createAttractions(), 50f);
+		Suggestion suggestion = createSuggestions();
+
+		Float costTotal = promotable.calculateCost(suggestion);
+
+		Assert.assertEquals(500f, costTotal, 0.001);
+	}
+
+	@Test
+	public void notApplyAxBPromotionBecauseEndDateIsNotValid() {
+		Promotable promotable = new AxBPromotion(startDate(), yesterdayDate(), createAttractions(), createFreeAttraction());
+		Suggestion suggestion = createSuggestions();
+
+		Float costTotal = promotable.calculateCost(suggestion);
+
+		Assert.assertEquals(500f, costTotal, 0.001);
+	}
+
+	@Test
+	public void notApplyFamilyPackagePromotionBecauseEndDateIsNotValid() {
+		Promotable promotable = new FamilyPackagePromotion(startDate(), yesterdayDate(), 4);
+		Suggestion suggestion = createSuggestions();
+
+		Float costTotal = promotable.calculateCost(suggestion);
+
+		Assert.assertEquals(500f, costTotal, 0.001);
+	}
+
+	@Test
+	public void notApplyAbsolutePromotionBecauseEndDateIsNotValid() {
+		Promotable promotable = new AbsolutePromotion(startDate(), yesterdayDate(), createAttractions(), 400f);
+		Suggestion suggestion = createSuggestions();
+
+		Float costTotal = promotable.calculateCost(suggestion);
+
+		Assert.assertEquals(500f, costTotal, 0.001);
+	}
+
 	private Attraction createFreeAttraction() {
 		Position position = new Position(20f, 40f);
-		Attraction landscape = new Attraction(new Integer(2), position, 500f, 100f, AttractionType.LANDSCAPE,
-				new Integer(100));
+		Attraction landscape = new Attraction(new Integer(2), position, 500f, 100f, AttractionType.LANDSCAPE, new Integer(100));
 		return landscape;
 	}
 
@@ -189,15 +289,14 @@ public class PromotionTest {
 		return new Suggestion(createAttractionsForForeignerPromotion());
 	}
 
-	private Suggestion createSuggestionsForFamilyPackagePromotionWithTickets(Integer purchasedTickets) {
-		return new Suggestion(createAttractionsForFamilyPackagePromotion(purchasedTickets));
+	private Suggestion createSuggestionsForFamilyPackagePromotion() {
+		return new Suggestion(createAttractionsPromotion());
 	}
 
 	private Set<Attraction> createAttractions() {
 		Position position = new Position(10f, 20f);
 		Set<Attraction> attractions = new HashSet<Attraction>();
-		Attraction landscape = new Attraction(new Integer(1), position, 500f, 100f, AttractionType.LANDSCAPE,
-				new Integer(100));
+		Attraction landscape = new Attraction(new Integer(1), position, 500f, 100f, AttractionType.LANDSCAPE, new Integer(100));
 		attractions.add(landscape);
 		return attractions;
 	}
@@ -205,20 +304,15 @@ public class PromotionTest {
 	private Set<Attraction> createAttractionsForForeignerPromotion() {
 		Position position = new Position(400f, 200f);
 		Set<Attraction> attractions = new HashSet<Attraction>();
-		Attraction landscape = new Attraction(new Integer(1), position, 500f, 100f, AttractionType.LANDSCAPE,
-				new Integer(100));
+		Attraction landscape = new Attraction(new Integer(1), position, 500f, 100f, AttractionType.LANDSCAPE, new Integer(100));
 		attractions.add(landscape);
 		return attractions;
 	}
 
-	private Set<Attraction> createAttractionsForFamilyPackagePromotion(Integer purchasedTickets) {
+	private Set<Attraction> createAttractionsPromotion() {
 		Position position = new Position(10f, 20f);
 		Set<Attraction> attractions = new HashSet<Attraction>();
-		Attraction landscape = new Attraction(new Integer(1), position, 10f, 100f, AttractionType.LANDSCAPE,
-				new Integer(100));
-		for (int i = 0; i < purchasedTickets; i++) {
-			landscape.purchaseTicket();
-		}
+		Attraction landscape = new Attraction(new Integer(1), position, 10f, 100f, AttractionType.LANDSCAPE, new Integer(100));
 		attractions.add(landscape);
 		return attractions;
 	}
@@ -226,8 +320,7 @@ public class PromotionTest {
 	private Set<Attraction> createOthersAttractions() {
 		Position position = new Position(40f, 120f);
 		Set<Attraction> attractions = new HashSet<Attraction>();
-		Attraction landscape = new Attraction(new Integer(3), position, 1500f, 100f, AttractionType.LANDSCAPE,
-				new Integer(100));
+		Attraction landscape = new Attraction(new Integer(3), position, 1500f, 100f, AttractionType.LANDSCAPE, new Integer(100));
 		attractions.add(landscape);
 		return attractions;
 	}
@@ -241,6 +334,18 @@ public class PromotionTest {
 	private Date endDate() {
 		Calendar calendar = Calendar.getInstance();
 		calendar.add(Calendar.DATE, 1);
+		return calendar.getTime();
+	}
+
+	private Date tomorrowDate() {
+		Calendar calendar = Calendar.getInstance();
+		calendar.add(Calendar.DATE, 1);
+		return calendar.getTime();
+	}
+
+	private Date yesterdayDate() {
+		Calendar calendar = Calendar.getInstance();
+		calendar.add(Calendar.DATE, -1);
 		return calendar.getTime();
 	}
 }

@@ -11,7 +11,6 @@ public class Attraction {
 	private Float visitTime;
 	private AttractionType type;
 	private Integer capacity;
-	private Integer purchasedTickets;
 
 	public Attraction(Integer id, Position position, Float cost, Float visitTime, AttractionType type, Integer capacity) {
 		this.id = id;
@@ -20,19 +19,10 @@ public class Attraction {
 		this.visitTime = visitTime;
 		this.type = type;
 		this.capacity = capacity;
-		this.purchasedTickets = new Integer(0);
 	}
 
 	public Integer getCapacity() {
 		return capacity;
-	}
-
-	public void setCapacity(Integer capacity) {
-		this.capacity = capacity;
-	}
-
-	public void setVisitTime(Float visitTime) {
-		this.visitTime = visitTime;
 	}
 
 	public Float getVisitTime() {
@@ -51,10 +41,6 @@ public class Attraction {
 		this.cost = cost;
 	}
 
-	public void setType(AttractionType type) {
-		this.type = type;
-	}
-
 	public AttractionType getType() {
 		return type;
 	}
@@ -63,28 +49,20 @@ public class Attraction {
 		return id;
 	}
 
-	public void purchaseTicket() {
-		this.purchasedTickets++;
-	}
-
-	public Integer getPurchaseTickets() {
-		return this.purchasedTickets;
-	}
-
 	public boolean hasMoneyEnough(Float money) {
-		return money >= this.cost;
+		return money >= this.getCost();
 	}
 
 	public boolean hasTimeEnough(Float time) {
-		return time >= this.visitTime;
+		return time >= this.getVisitTime();
 	}
 
 	public boolean IsFavoriteAttraction(AttractionType type) {
-		return this.type.equals(type);
+		return this.getType().equals(type);
 	}
 
 	public boolean hasCapacity() {
-		return this.capacity > 0;
+		return getCapacity() > 0;
 	}
 
 	public boolean allowUser(User user) {
@@ -105,10 +83,6 @@ public class Attraction {
 			Attraction attraction = (Attraction) obj;
 			return this.getId().equals(attraction.getId());
 		}
-	}
-
-	public boolean isSameAttraction(Attraction attractionForSuggest) {
-		return this.equals(attractionForSuggest);
 	}
 
 }

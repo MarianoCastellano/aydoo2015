@@ -29,18 +29,13 @@ public class Suggestion {
 	}
 
 	public Float calculateCostTotalForAttractions() {
-		Float costTotal = 0f;
-		for (Attraction attraction : getAttractionsSuggested()) {
-			costTotal += attraction.getCost();
+		Float costTotal = getCostTotal();
+		if (getCostTotal() == 0) {
+			for (Attraction attraction : getAttractionsSuggested()) {
+				costTotal += attraction.getCost();
+			}
 		}
 		return costTotal;
 	}
 
-	public Float calculatePurchasedTickets() {
-		Float purchasedTickets = 0f;
-		for (Attraction attraction : getAttractionsSuggested()) {
-			purchasedTickets += attraction.getPurchaseTickets();
-		}
-		return purchasedTickets;
-	}
 }

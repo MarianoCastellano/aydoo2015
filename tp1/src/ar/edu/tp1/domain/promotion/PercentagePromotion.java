@@ -20,34 +20,6 @@ public class PercentagePromotion implements Promotable {
 		this.porcentage = porcentage;
 	}
 
-	public void setStartDate(Date startDate) {
-		this.startDate = startDate;
-	}
-
-	public void setEndDate(Date endDate) {
-		this.endDate = endDate;
-	}
-
-	public Date getEndDate() {
-		return endDate;
-	}
-
-	public Date getStartDate() {
-		return startDate;
-	}
-
-	public Float getPorcentage() {
-		return porcentage;
-	}
-
-	public void setPorcentage(Float porcentage) {
-		this.porcentage = porcentage;
-	}
-
-	public Set<Attraction> getAttractions() {
-		return attractions;
-	}
-
 	@Override
 	public Float calculateCost(Suggestion suggestion) {
 		Float costTotal = suggestion.calculateCostTotalForAttractions();

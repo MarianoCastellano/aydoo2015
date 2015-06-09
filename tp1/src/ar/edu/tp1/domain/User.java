@@ -18,20 +18,12 @@ public class User {
 		this.position = position;
 	}
 
-	public void setSpeed(Float speed) {
-		this.speed = speed;
-	}
-
 	public Float getSpeed() {
 		return speed;
 	}
 
 	public AttractionType getFavoriteAttraction() {
 		return favoriteAttraction;
-	}
-
-	public void setFavoriteAttraction(AttractionType favoriteAttraction) {
-		this.favoriteAttraction = favoriteAttraction;
 	}
 
 	public Float getTimeRemaining() {

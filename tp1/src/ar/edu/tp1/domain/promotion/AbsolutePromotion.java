@@ -20,34 +20,6 @@ public class AbsolutePromotion implements Promotable {
 		this.costTotal = costTotal;
 	}
 
-	public void setStartDate(Date startDate) {
-		this.startDate = startDate;
-	}
-
-	public void setEndDate(Date endDate) {
-		this.endDate = endDate;
-	}
-
-	public Date getEndDate() {
-		return endDate;
-	}
-
-	public Date getStartDate() {
-		return startDate;
-	}
-
-	public Float getCostTotal() {
-		return costTotal;
-	}
-
-	public void setCostTotal(Float costTotal) {
-		this.costTotal = costTotal;
-	}
-
-	public Set<Attraction> getAttractions() {
-		return attractions;
-	}
-
 	@Override
 	public Float calculateCost(Suggestion suggestion) {
 		Float costTotal = suggestion.calculateCostTotalForAttractions();
