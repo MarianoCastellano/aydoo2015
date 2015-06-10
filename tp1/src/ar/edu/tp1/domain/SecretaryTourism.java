@@ -97,13 +97,13 @@ public class SecretaryTourism {
 
 		Set<Attraction> attractionsSuggested = new HashSet<Attraction>();
 
-		if (attractionForSuggest.allowUser(user)) {
+		if (user.isValidAttraction(attractionForSuggest)) {
 			attractionsSuggested.add(attractionForSuggest);
 
 			while (iteratorAttractions.hasNext()) {
 				Attraction attraction = iteratorAttractions.next();
 
-				if (attraction.allowUser(user)) {
+				if (user.isValidAttraction(attraction)) {
 					attractionsSuggested.add(attraction);
 				}
 			}

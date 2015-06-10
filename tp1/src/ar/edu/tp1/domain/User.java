@@ -1,5 +1,6 @@
 package ar.edu.tp1.domain;
 
+import ar.edu.tp1.domain.attraction.Attraction;
 import ar.edu.tp1.domain.attraction.AttractionType;
 
 public class User {
@@ -38,4 +39,20 @@ public class User {
 		return position;
 	}
 
+	private boolean hasMoneyEnough(Float money) {
+		return getMoney() >= money;
+	}
+
+	private boolean hasTimeEnough(Float time) {
+		return getTimeRemaining() >= time;
+	}
+
+	private boolean isFavoriteAttraction(AttractionType type) {
+		return getFavoriteAttraction().equals(type);
+	}
+
+	public boolean isValidAttraction(Attraction attraction) {
+		return this.hasMoneyEnough(attraction.getCost()) && this.hasTimeEnough(attraction.getVisitTime())
+				&& this.isFavoriteAttraction(attraction.getType()) && attraction.hasCapacity();
+	}
 }
